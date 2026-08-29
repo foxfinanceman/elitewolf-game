@@ -36,6 +36,14 @@ function trainWolf() {
     if (xp >= wolves[stage].nextXP) {
         stage++;
 
+        const wolfElement = document.querySelector(".wolf");
+
+        wolfElement.classList.add("evolving");
+
+        setTimeout(() => {
+            wolfElement.classList.remove("evolving");
+        }, 800);
+
         document.getElementById("message").textContent =
             "🔥 EVOLUTION! Your wolf became " +
             wolves[stage].name + "!";
