@@ -243,3 +243,79 @@ updateGame();
 if (energy < MAX_ENERGY) {
     startEnergyRestore();
 }
+
+
+// TEMPORARY: RESET TEST button for development/testing only
+// - Resets the runtime state to: Wolf Pup, XP 0, Coins 0, Energy MAX_ENERGY
+// - Clears saved localStorage progress
+// This button is intentionally added as a temporary helper and should be removed before release.
+function resetTest() {
+    // Stop any running energy restore interval
+    if (energyCountdownInterval) {
+        clearInterval(energyCountdownInterval);
+        energyCountdownInterval = null;
+    }
+
+    // Reset runtime variables
+    xp = 0;
+    stage = 0;
+    coins = 0;
+    energy = MAX_ENERGY;
+    nextEnergyTick = null;
+
+    // Clear saved progress from localStorage
+    localStorage.removeItem("elitewolf_xp");
+    localStorage.removeItem("elitewolf_stage");
+    localStorage.removeItem("elitewolf_coins");
+    localStorage.removeItem("elitewolf_energy");
+    localStorage.removeItem("elitewolf_nextEnergyTick");
+
+    // Persist the fresh reset state so tests start from a clean, known baseline
+    saveGame();
+
+    updateGame();
+
+    const msgEl = document.getElementById("message");
+    if (msgEl) msgEl.textContent = "RESET TEST: Game reset to default testing state.";
+}
+
+// Create a visible, clearly temporary button and append to the document body
+(function createResetTestButton() {
+    try {
+        const btn = document.createElement("button");
+        btn.id = "resetTestBtn";
+        btn.textContent = "RESET TEST";
+        // Styling to make it noticeable but unobtrusive in the corner
+        btn.style.position = "fixed";
+        btn.style.top = "10px";
+        btn.style.right = "10px";
+        btn.style.zIndex = 10000;
+        btn.style.background = "#d9534f"; // bootstrap danger red
+        btn.style.color = "white";
+        btn.style.border = "none";
+        btn.style.padding = "8px 10px";
+        btn.style.borderRadius = "4px";
+        btn.style.cursor = "pointer";
+        btn.title = "Temporary: Reset game to test state and clear saved progress";
+
+        btn.addEventListener("click", () => {
+            if (confirm("Reset game to test state? This will clear saved progress.")) {
+                resetTest();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.appendChild(btn);
+        });
+
+        // If DOM already loaded, append immediately
+        if (document.readyState === "interactive" || document.readyState === "complete") {
+            document.body.appendChild(btn);
+        }
+    } catch (err) {
+        // If DOM APIs aren't available in the current environment, fail quietly
+        // This avoids breaking tests where document may be undefined.
+        // eslint-disable-next-line no-console
+        console.warn("Could not create RESET TEST button:", err);
+    }
+})();
