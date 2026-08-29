@@ -1,51 +1,103 @@
 let xp = 0;
-let level = 1;
-const xpNeeded = 100;
+let stage = 0;
 
-function addXP(amount, action) {
-  xp += amount;
-
-  if (xp >= xpNeeded) {
-    xp -= xpNeeded;
-    level++;
-
-    document.getElementById("message").textContent =
-      `🐺 Your wolf reached Level ${level}!`;
-
-    if (level >= 5) {
-      document.getElementById("wolf").textContent = "⚡🐺⚡";
+const wolves = [
+    {
+        name: "Wolf Pup",
+        emoji: "🐺",
+        xp: 100
+    },
+    {
+        name: "Young Wolf",
+        emoji: "🐺",
+        xp: 250
+    },
+    {
+        name: "Alpha Wolf",
+        emoji: "🐺",
+        xp: 500
+    },
+    {
+        name: "Elite Wolf",
+        emoji: "👑🐺",
+        xp: 1000
     }
-  } else {
-    document.getElementById("message").textContent =
-      `${action} +${amount} XP`;
-  }
+];
 
-  updateGame();
+function trainWolf() {
+
+    if (stage >= wolves.length - 1) {
+        document.getElementById("message").textContent =
+            "🔥 ELITE WOLF HAS REACHED MAX LEVEL!";
+        return;
+    }
+
+    xp += 25;
+
+    checkEvolution();
+    updateGame();
+
+    const messages = [
+        "The wolf is getting stronger...",
+        "Keep training the pack! 🐺",
+        "Your wolf is evolving...",
+        "The hunt continues! 🔥"
+    ];
+
+    const randomMessage =
+        messages[Math.floor(Math.random() * messages.length)];
+
+    document.getElementById("message").textContent = randomMessage;
 }
 
-function feed() {
-  addXP(10, "🍖 Fed the wolf!");
-}
+function checkEvolution() {
 
-function play() {
-  addXP(15, "🎾 Played with the wolf!");
-}
+    if (xp >= wolves[stage].xp) {
 
-function train() {
-  addXP(20, "⚔️ Trained the wolf!");
+        if (stage < wolves.length - 1) {
+            stage++;
+
+            document.getElementById("message").textContent =
+                "🔥 EVOLUTION! Your wolf became " +
+                wolves[stage].name + "!";
+        }
+    }
 }
 
 function updateGame() {
-  document.getElementById("level").textContent =
-    `Level ${level}`;
 
-  document.getElementById("xp-text").textContent =
-    `${xp} / ${xpNeeded} XP`;
+    const currentWolf = wolves[stage];
 
-  const percentage = (xp / xpNeeded) * 100;
+    document.getElementById("stage").textContent =
+        currentWolf.name;
 
-  document.getElementById("xp-fill").style.width =
-    `${percentage}%`;
+    document.querySelector(".wolf").textContent =
+        currentWolf.emoji;
+
+    document.getElementById("xp").textContent =
+        xp;
+
+    if (stage < wolves.length - 1) {
+
+        document.getElementById("nextXP").textContent =
+            currentWolf.xp;
+
+        let progress =
+            (xp / currentWolf.xp) * 100;
+
+        if (progress > 100) progress = 100;
+
+        document.getElementById("xpFill").style.width =
+            progress + "%";
+
+    } else {
+
+        document.getElementById("nextXP").textContent =
+            "MAX";
+
+        document.getElementById("xpFill").style.width =
+            "100%";
+    }
 }
 
 updateGame();
