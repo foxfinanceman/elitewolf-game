@@ -37,6 +37,12 @@
         <button id="trainBtn" onclick="trainWolf()">TRAIN WOLF ⚔️</button>
 
         <p id="message">Your journey begins...</p>
+
+        <!-- Visible, clearly-labeled RESET TEST button placed inside the game container
+             so it's always visible at the bottom of the game UI. It calls the existing
+             resetTest() function defined in script.js. We use a unique id so the
+             existing temporary floating button in script.js doesn't conflict. -->
+        <button id="resetTestInline" onclick="resetTest()">🔄 RESET TEST</button>
     </div>
 
     <script src="script.js"></script>
