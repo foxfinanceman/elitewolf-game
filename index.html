@@ -13,6 +13,11 @@
         <h1>🐺 ELITE WOLF</h1>
         <p class="subtitle">Raise your wolf. Build the pack.</p>
 
+        <div class="stats-bar">
+            <div class="stat">💰 <span id="coins">0</span></div>
+            <div class="stat">⚡ <span id="energy">100</span>/100</div>
+        </div>
+
         <div class="wolf-container">
             <div class="wolf">🐺</div>
         </div>
@@ -29,7 +34,7 @@
             </div>
         </div>
 
-        <button onclick="trainWolf()">TRAIN WOLF ⚔️</button>
+        <button id="trainBtn" onclick="trainWolf()">TRAIN WOLF ⚔️</button>
 
         <p id="message">Your journey begins...</p>
     </div>
