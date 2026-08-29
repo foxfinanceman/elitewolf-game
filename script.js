@@ -195,8 +195,10 @@ function updateGame() {
         countdownEl.id = "energyCountdown";
         countdownEl.style.display = "block";
         countdownEl.style.marginTop = "4px";
-        countdownEl.style.fontSize = "0.85em"; // smaller and less prominent
-        countdownEl.style.opacity = "0.8";
+        // Make the countdown very small and subtle
+        countdownEl.style.fontSize = "0.7em"; // smaller and less prominent
+        countdownEl.style.opacity = "0.65";
+        countdownEl.style.color = "#666";
         // Insert after the energy element
         if (energyEl && energyEl.parentNode) {
             energyEl.parentNode.insertBefore(countdownEl, energyEl.nextSibling);
@@ -204,17 +206,19 @@ function updateGame() {
     }
 
     if (energy >= MAX_ENERGY) {
-        // Keep a minimal "Energy Full" message when at max (no extra ⚡ symbol)
-        countdownEl.textContent = "Energy Full";
+        // Hide the countdown when energy is full so the main display remains the only "Energy"
+        countdownEl.textContent = "";
+        countdownEl.style.display = "none";
     } else {
+        countdownEl.style.display = "block";
         // Compute remaining seconds until next +1
         let remaining = Math.ceil(ENERGY_TICK_MS / 1000);
         if (nextEnergyTick) {
             remaining = Math.ceil((nextEnergyTick - Date.now()) / 1000);
             if (remaining < 1) remaining = 1;
         }
-        // Show only the recovery countdown here, without any extra ⚡ symbol or "/100" text
-        countdownEl.textContent = `+1 Energy in ${remaining}s`;
+        // Show only the remaining seconds (e.g., "10s") — no symbols or words
+        countdownEl.textContent = `${remaining}s`;
     }
 
     if (energy < 10) {
