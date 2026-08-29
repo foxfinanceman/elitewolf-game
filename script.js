@@ -1,9 +1,11 @@
 let xp = 0;
 let stage = 0;
 let coins = 0;
-let energy = 100;
+const MAX_ENERGY = 25;
+let energy = MAX_ENERGY;
 let energyCountdownInterval = null;
 let nextEnergyTick = null; // timestamp (ms) for the next +1 energy
+const ENERGY_TICK_MS = 5000; // +1 energy every 5 seconds
 
 const wolves = [
     {
@@ -57,16 +59,16 @@ function loadGame() {
         nextEnergyTick = parseInt(savedNextTick);
 
         // If time already passed while the game was closed, apply missed increments
-        if (energy < 100) {
+        if (energy < MAX_ENERGY) {
             const now = Date.now();
             if (now >= nextEnergyTick) {
                 const elapsed = now - nextEnergyTick;
-                const increments = 1 + Math.floor(elapsed / 3000);
-                energy = Math.min(100, energy + increments);
+                const increments = 1 + Math.floor(elapsed / ENERGY_TICK_MS);
+                energy = Math.min(MAX_ENERGY, energy + increments);
 
-                if (energy < 100) {
-                    // schedule next tick 3s from now
-                    nextEnergyTick = now + 3000;
+                if (energy < MAX_ENERGY) {
+                    // schedule next tick ENERGY_TICK_MS from now
+                    nextEnergyTick = now + ENERGY_TICK_MS;
                 } else {
                     nextEnergyTick = null;
                 }
@@ -86,15 +88,15 @@ function loadGame() {
 function startEnergyRestore() {
     // One-second interval drives countdown display and applies +1 energy when its time
     if (energyCountdownInterval) return;
-    if (energy >= 100) return;
+    if (energy >= MAX_ENERGY) return;
 
     if (!nextEnergyTick) {
-        nextEnergyTick = Date.now() + 3000;
+        nextEnergyTick = Date.now() + ENERGY_TICK_MS;
         saveGame();
     }
 
     energyCountdownInterval = setInterval(() => {
-        if (energy >= 100) {
+        if (energy >= MAX_ENERGY) {
             clearInterval(energyCountdownInterval);
             energyCountdownInterval = null;
             nextEnergyTick = null;
@@ -107,12 +109,12 @@ function startEnergyRestore() {
         if (now >= nextEnergyTick) {
             // If many intervals passed (tab was inactive), grant multiple increments
             const elapsed = now - nextEnergyTick;
-            const increments = 1 + Math.floor(elapsed / 3000);
-            energy = Math.min(100, energy + increments);
+            const increments = 1 + Math.floor(elapsed / ENERGY_TICK_MS);
+            energy = Math.min(MAX_ENERGY, energy + increments);
 
-            if (energy < 100) {
-                // schedule next tick 3s from now
-                nextEnergyTick = now + 3000;
+            if (energy < MAX_ENERGY) {
+                // schedule next tick ENERGY_TICK_MS from now
+                nextEnergyTick = now + ENERGY_TICK_MS;
             } else {
                 nextEnergyTick = null;
                 clearInterval(energyCountdownInterval);
@@ -165,7 +167,7 @@ function trainWolf() {
     }
 
     // If energy dropped below max, ensure the restore process runs
-    if (energy < 100) startEnergyRestore();
+    if (energy < MAX_ENERGY) startEnergyRestore();
     updateGame();
     saveGame();
 }
@@ -181,27 +183,31 @@ function updateGame() {
 
     document.getElementById("xp").textContent = xp;
     document.getElementById("coins").textContent = coins;
-    document.getElementById("energy").textContent = energy;
 
-    // Ensure there's a small countdown element next to the energy stat
+    // Energy display: keep normal font size and exact format
     const energyEl = document.getElementById("energy");
+    energyEl.textContent = `⚡ Energy ${energy} / ${MAX_ENERGY}`;
+
+    // Ensure there's a small countdown element underneath the energy stat
     let countdownEl = document.getElementById("energyCountdown");
     if (!countdownEl) {
-        countdownEl = document.createElement("span");
+        countdownEl = document.createElement("div");
         countdownEl.id = "energyCountdown";
-        countdownEl.style.marginLeft = "8px";
-        countdownEl.style.fontSize = "0.95em";
+        countdownEl.style.display = "block";
+        countdownEl.style.marginTop = "4px";
+        countdownEl.style.fontSize = "0.85em"; // smaller and less prominent
+        countdownEl.style.opacity = "0.8";
         // Insert after the energy element
         if (energyEl && energyEl.parentNode) {
             energyEl.parentNode.insertBefore(countdownEl, energyEl.nextSibling);
         }
     }
 
-    if (energy >= 100) {
+    if (energy >= MAX_ENERGY) {
         countdownEl.textContent = "⚡ Energy Full";
     } else {
         // Compute remaining seconds until next +1
-        let remaining = 3;
+        let remaining = Math.ceil(ENERGY_TICK_MS / 1000);
         if (nextEnergyTick) {
             remaining = Math.ceil((nextEnergyTick - Date.now()) / 1000);
             if (remaining < 1) remaining = 1;
@@ -234,6 +240,6 @@ function updateGame() {
 
 loadGame();
 updateGame();
-if (energy < 100) {
+if (energy < MAX_ENERGY) {
     startEnergyRestore();
 }
