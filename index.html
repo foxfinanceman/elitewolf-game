@@ -1,19 +1,40 @@
-<div class="wolf-box">
-  <div id="wolf">🐺</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Wolf Evolution</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-<h2 id="level">Level 1</h2>
+<body>
 
-<div class="xp-bar">
-  <div id="xp-fill"></div>
-</div>
+    <div class="game">
+        <h1>🐺 ELITE WOLF</h1>
+        <p class="subtitle">Raise your wolf. Build the pack.</p>
 
-<p id="xp-text">0 / 100 XP</p>
+        <div class="wolf-container">
+            <div class="wolf">🐺</div>
+        </div>
 
-<div class="buttons">
-  <button onclick="feed()">🍖 Feed</button>
-  <button onclick="play()">🎾 Play</button>
-  <button onclick="train()">⚔️ Train</button>
-</div>
+        <h2 id="stage">Wolf Pup</h2>
 
-<p id="message">Take care of your wolf!</p>
+        <div class="xp-box">
+            <div class="xp-text">
+                XP: <span id="xp">0</span> / <span id="nextXP">100</span>
+            </div>
+
+            <div class="xp-bar">
+                <div id="xpFill"></div>
+            </div>
+        </div>
+
+        <button onclick="trainWolf()">TRAIN WOLF ⚔️</button>
+
+        <p id="message">Your journey begins...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
