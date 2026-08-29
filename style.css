@@ -130,3 +130,24 @@ button:active {
     color: #aaa;
     min-height: 20px;
 }
+
+.wolf.evolving {
+    animation: evolve 0.8s ease-in-out;
+}
+
+@keyframes evolve {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.25);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
