@@ -204,7 +204,8 @@ function updateGame() {
     }
 
     if (energy >= MAX_ENERGY) {
-        countdownEl.textContent = "⚡ Energy Full";
+        // Keep a minimal "Energy Full" message when at max (no extra ⚡ symbol)
+        countdownEl.textContent = "Energy Full";
     } else {
         // Compute remaining seconds until next +1
         let remaining = Math.ceil(ENERGY_TICK_MS / 1000);
@@ -212,6 +213,7 @@ function updateGame() {
             remaining = Math.ceil((nextEnergyTick - Date.now()) / 1000);
             if (remaining < 1) remaining = 1;
         }
+        // Show only the recovery countdown here, without any extra ⚡ symbol or "/100" text
         countdownEl.textContent = `+1 Energy in ${remaining}s`;
     }
 
