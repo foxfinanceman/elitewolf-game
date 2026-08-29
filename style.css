@@ -35,18 +35,37 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* Make the wolf image area responsive so the PNGs can grow to the largest
+   size that fits between the title and the subtitle without overlapping. */
 .wolf-container {
-    height: 230px;
+    /* allow the container to grow but cap by viewport height so it never
+       pushes the subtitle off or overlaps the title */
+    height: auto;
+    max-height: 36vh; /* responsive cap: tweak if you want larger/smaller */
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .wolf {
-    font-size: 150px;
+    /* remove large font-size placeholder and let the image itself size */
+    max-width: 100%;
+    max-height: 100%;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
-    max-width: 180px;
+    width: auto;
     height: auto;
+}
+
+/* Target the img inside the .wolf container so it scales responsively */
+.wolf img {
+    display: block;
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+    max-height: 36vh; /* match the container cap so it fills available space */
+    max-width: 100%;
+    object-fit: contain;
 }
 
 img {
