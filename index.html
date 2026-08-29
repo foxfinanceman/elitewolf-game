@@ -37,6 +37,8 @@
 
         <button id="trainBtn" onclick="trainWolf()">TRAIN WOLF ⚔️</button>
 
+        <button id="foodShopBtn" onclick="openFoodShop()">🥩 FOOD SHOP</button>
+
         <p id="message">Your journey begins...</p>
 
         <!-- Visible, clearly-labeled RESET TEST button placed inside the game container
@@ -44,6 +46,52 @@
              resetTest() function defined in script.js. We use a unique id so the
              existing temporary floating button in script.js doesn't conflict. -->
         <button id="resetTestInline" onclick="resetTest()">🔄 RESET TEST</button>
+    </div>
+
+    <!-- Food Shop side panel -->
+    <div id="foodShopPanel" class="food-shop-panel">
+        <div class="food-shop-content">
+            <div class="food-shop-header">
+                <h2>🥩 FOOD SHOP</h2>
+                <button class="close-btn" onclick="closeFoodShop()">✕</button>
+            </div>
+
+            <div class="food-shop-items">
+                <!-- Item 1: Bone -->
+                <div class="food-item" onclick="buyFood(0)">
+                    <div class="food-icon">🦴</div>
+                    <div class="food-name">Bone</div>
+                    <div class="food-price">10 💰</div>
+                    <div class="food-effect">+10 XP</div>
+                </div>
+
+                <!-- Item 2: Meat -->
+                <div class="food-item" onclick="buyFood(1)">
+                    <div class="food-icon">🥩</div>
+                    <div class="food-name">Meat</div>
+                    <div class="food-price">25 💰</div>
+                    <div class="food-effect">+30 XP</div>
+                </div>
+
+                <!-- Item 3: Premium Meat -->
+                <div class="food-item" onclick="buyFood(2)">
+                    <div class="food-icon">🍖</div>
+                    <div class="food-name">Premium Meat</div>
+                    <div class="food-price">50 💰</div>
+                    <div class="food-effect">+70 XP</div>
+                </div>
+
+                <!-- Item 4: Elite Feast -->
+                <div class="food-item" onclick="buyFood(3)">
+                    <div class="food-icon">👑</div>
+                    <div class="food-name">Elite Feast</div>
+                    <div class="food-price">100 💰</div>
+                    <div class="food-effect">+150 XP</div>
+                </div>
+            </div>
+
+            <p id="shopMessage" class="shop-message"></p>
+        </div>
     </div>
 
     <script src="script.js"></script>
