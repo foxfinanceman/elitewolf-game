@@ -328,3 +328,56 @@ button:disabled {
         font-size: 40px;
     }
 }
+
+/* FOOD SHOP OVERLAY */
+.food-shop-panel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    justify-content: flex-end;
+    z-index: 9999;
+}
+
+.food-shop-panel.active {
+    display: flex;
+}
+
+/* FOOD SHOP CONTENT */
+.food-shop-content {
+    width: 360px;
+    max-width: 90%;
+    height: 100%;
+    background: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* HEADER */
+.food-shop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.food-shop-header h2 {
+    margin: 0;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #eee;
+    color: #222;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: #ddd;
+}
