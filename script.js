@@ -325,3 +325,40 @@ function resetTest() {
         console.warn("Could not create RESET TEST button:", err);
     }
 })();
+
+// FOOD SHOP
+function openFoodShop() {
+    const shop = document.getElementById("foodShopPanel");
+
+    if (shop) {
+        shop.classList.add("active");
+    }
+}
+
+function closeFoodShop() {
+    const shop = document.getElementById("foodShopPanel");
+
+    if (shop) {
+        shop.classList.remove("active");
+    }
+}
+
+// Close shop when clicking the dark overlay
+document.addEventListener("click", function(event) {
+    const shop = document.getElementById("foodShopPanel");
+
+    if (
+        shop &&
+        shop.classList.contains("active") &&
+        event.target === shop
+    ) {
+        closeFoodShop();
+    }
+});
+
+// Close shop with ESC
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeFoodShop();
+    }
+});
