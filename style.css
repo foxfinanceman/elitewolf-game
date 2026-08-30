@@ -194,22 +194,30 @@ button:disabled {
 
 /* Food Shop Panel */
 .food-shop-panel {
-    position: relative;
-    background: #11161d;
-    border: 1px solid #333;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    z-index: 1000;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    justify-content: flex-end;
+    z-index: 9999;
 }
 
+.food-shop-panel.active {
+    display: flex;
+}
+
+/* Food Shop Content */
 .food-shop-content {
-    padding: 25px;
+    width: 360px;
+    max-width: 90%;
+    height: 100%;
+    background: #11161d;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
+/* Food Shop Header */
 .food-shop-header {
     display: flex;
     justify-content: space-between;
@@ -224,18 +232,18 @@ button:disabled {
     font-size: 24px;
 }
 
-/* Close Button (small ✕ in top-right) */
+/* Close Button */
 .close-btn {
-    width: auto;
-    height: auto;
-    min-width: 32px;
-    min-height: 32px;
-    padding: 4px 12px;
-    background: transparent;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    background: #1a2230;
     border: 1px solid #666;
-    border-radius: 6px;
+    border-radius: 50%;
     color: #aaa;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
@@ -245,7 +253,7 @@ button:disabled {
 }
 
 .close-btn:hover {
-    background: #1a2230;
+    background: #232a35;
     border-color: #999;
     color: #fff;
     transform: scale(1.05);
@@ -315,8 +323,8 @@ button:disabled {
 
 /* Mobile responsiveness */
 @media (max-width: 600px) {
-    .food-shop-panel {
-        width: 95%;
+    .food-shop-content {
+        width: 100%;
         max-height: 85vh;
     }
 
@@ -327,57 +335,4 @@ button:disabled {
     .food-icon {
         font-size: 40px;
     }
-}
-
-/* FOOD SHOP OVERLAY */
-.food-shop-panel {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    display: none;
-    justify-content: flex-end;
-    z-index: 9999;
-}
-
-.food-shop-panel.active {
-    display: flex;
-}
-
-/* FOOD SHOP CONTENT */
-.food-shop-content {
-    width: 360px;
-    max-width: 90%;
-    height: 100%;
-    background: #ffffff;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-/* HEADER */
-.food-shop-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.food-shop-header h2 {
-    margin: 0;
-}
-
-/* CLOSE BUTTON */
-.close-btn {
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: #eee;
-    color: #222;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.close-btn:hover {
-    background: #ddd;
 }
