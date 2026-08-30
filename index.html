@@ -3,96 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Elite Wolf Evolution</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <div class="game">
+
         <h1>🐺 ELITE WOLF</h1>
-        <p class="subtitle">Raise your wolf. Build the pack.</p>
+
+        <p class="subtitle">
+            Raise your wolf. Build the pack.
+        </p>
+
+        <!-- =========================
+             MAIN STATS
+        ========================== -->
 
         <div class="stats-bar">
-            <div class="stat">💰 <span id="coins">0</span></div>
-            <!-- SINGLE Energy UI: the script will populate the exact text ("⚡ Energy 25 / 25") -->
-            <div class="stat"><span id="energy">⚡ Energy 25 / 25</span></div>
+
+            <div class="stat">
+                💰 <span id="coins">0</span>
+            </div>
+
+            <div class="stat">
+                ⚡ <span id="energy">Energy 25 / 25</span>
+            </div>
+
         </div>
+
+
+        <!-- =========================
+             WOLF
+        ========================== -->
 
         <div class="wolf-container">
-            <div class="wolf">🐺</div>
+
+            <div class="wolf">
+                🐺
+            </div>
+
         </div>
 
-        <h2 id="stage">Wolf Pup</h2>
+
+        <h2 id="stage">
+            Wolf Pup
+        </h2>
+
+
+        <!-- =========================
+             TAMAGOTCHI STATS
+        ========================== -->
+
+        <div class="pet-stats">
+
+            <!-- HEALTH -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+                    <span>❤️ Health</span>
+                    <span id="healthText">100 / 100</span>
+                </div>
+
+                <div class="pet-bar health-bar">
+
+                    <div
+                        id="healthFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HUNGER -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+                    <span>🍖 Hunger</span>
+                    <span id="hungerText">100 / 100</span>
+                </div>
+
+                <div class="pet-bar hunger-bar">
+
+                    <div
+                        id="hungerFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOOD -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+                    <span>😊 Mood</span>
+                    <span id="moodText">100 / 100</span>
+                </div>
+
+                <div class="pet-bar mood-bar">
+
+                    <div
+                        id="moodFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             XP
+        ========================== -->
 
         <div class="xp-box">
+
             <div class="xp-text">
-                XP: <span id="xp">0</span> / <span id="nextXP">100</span>
+
+                ⭐ XP:
+                <span id="xp">0</span>
+                /
+                <span id="nextXP">100</span>
+
             </div>
 
             <div class="xp-bar">
+
                 <div id="xpFill"></div>
+
             </div>
+
         </div>
 
-        <button id="trainBtn" onclick="trainWolf()">TRAIN WOLF ⚔️</button>
 
-        <button id="foodShopBtn" onclick="openFoodShop()">🥩 FOOD SHOP</button>
+        <!-- =========================
+             ACTIONS
+        ========================== -->
 
-        <p id="message">Your journey begins...</p>
+        <button
+            id="trainBtn"
+            onclick="trainWolf()">
 
-        <!-- Visible, clearly-labeled RESET TEST button placed inside the game container
-             so it's always visible at the bottom of the game UI. It calls the existing
-             resetTest() function defined in script.js. We use a unique id so the
-             existing temporary floating button in script.js doesn't conflict. -->
-        <button id="resetTestInline" onclick="resetTest()">🔄 RESET TEST</button>
+            ⚔️ TRAIN WOLF
+
+        </button>
+
+
+        <button
+            id="feedBtn"
+            onclick="feedWolf()">
+
+            🍖 FEED WOLF
+
+        </button>
+
+
+        <button
+            id="foodShopBtn"
+            onclick="openFoodShop()">
+
+            🥩 FOOD SHOP
+
+        </button>
+
+
+        <!-- =========================
+             FOOD INVENTORY
+        ========================== -->
+
+        <div class="inventory">
+
+            <h3>🎒 FOOD INVENTORY</h3>
+
+            <div class="inventory-items">
+
+                <div class="inventory-item">
+                    🦴
+                    <span>Bone</span>
+                    <strong id="boneCount">0</strong>
+                </div>
+
+                <div class="inventory-item">
+                    🥩
+                    <span>Meat</span>
+                    <strong id="meatCount">0</strong>
+                </div>
+
+                <div class="inventory-item">
+                    🍖
+                    <span>Premium</span>
+                    <strong id="premiumCount">0</strong>
+                </div>
+
+                <div class="inventory-item">
+                    👑
+                    <span>Feast</span>
+                    <strong id="feastCount">0</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGE
+        ========================== -->
+
+        <p id="message">
+            Your journey begins...
+        </p>
+
+
+        <!-- =========================
+             RESET
+        ========================== -->
+
+        <button
+            id="resetTestInline"
+            onclick="resetTest()">
+
+            🔄 RESET TEST
+
+        </button>
+
     </div>
 
-    <!-- Food Shop side panel -->
-    <div id="foodShopPanel" class="food-shop-panel">
+
+    <!-- =========================
+         FOOD SHOP
+    ========================== -->
+
+    <div
+        id="foodShopPanel"
+        class="food-shop-panel">
+
         <div class="food-shop-content">
+
             <div class="food-shop-header">
-                <h2>🥩 FOOD SHOP</h2>
-                <button class="close-btn" onclick="closeFoodShop()">✕</button>
+
+                <h2>
+                    🥩 FOOD SHOP
+                </h2>
+
+                <button
+                    class="close-btn"
+                    onclick="closeFoodShop()">
+
+                    ✕
+
+                </button>
+
             </div>
+
 
             <div class="food-shop-items">
-                <!-- Item 1: Bone -->
-                <div class="food-item" onclick="buyFood(0)">
-                    <div class="food-icon">🦴</div>
-                    <div class="food-name">Bone</div>
-                    <div class="food-price">10 💰</div>
-                    <div class="food-effect">+10 XP</div>
+
+
+                <!-- BONE -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(0)">
+
+                    <div class="food-icon">
+                        🦴
+                    </div>
+
+                    <div class="food-name">
+                        Bone
+                    </div>
+
+                    <div class="food-price">
+                        10 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +10 Hunger
+                    </div>
+
                 </div>
 
-                <!-- Item 2: Meat -->
-                <div class="food-item" onclick="buyFood(1)">
-                    <div class="food-icon">🥩</div>
-                    <div class="food-name">Meat</div>
-                    <div class="food-price">25 💰</div>
-                    <div class="food-effect">+30 XP</div>
+
+                <!-- MEAT -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(1)">
+
+                    <div class="food-icon">
+                        🥩
+                    </div>
+
+                    <div class="food-name">
+                        Meat
+                    </div>
+
+                    <div class="food-price">
+                        25 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +25 Hunger
+                    </div>
+
                 </div>
 
-                <!-- Item 3: Premium Meat -->
-                <div class="food-item" onclick="buyFood(2)">
-                    <div class="food-icon">🍖</div>
-                    <div class="food-name">Premium Meat</div>
-                    <div class="food-price">50 💰</div>
-                    <div class="food-effect">+70 XP</div>
+
+                <!-- PREMIUM -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(2)">
+
+                    <div class="food-icon">
+                        🍖
+                    </div>
+
+                    <div class="food-name">
+                        Premium Meat
+                    </div>
+
+                    <div class="food-price">
+                        50 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +50 Hunger
+                    </div>
+
                 </div>
 
-                <!-- Item 4: Elite Feast -->
-                <div class="food-item" onclick="buyFood(3)">
-                    <div class="food-icon">👑</div>
-                    <div class="food-name">Elite Feast</div>
-                    <div class="food-price">100 💰</div>
-                    <div class="food-effect">+150 XP</div>
+
+                <!-- ELITE FEAST -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(3)">
+
+                    <div class="food-icon">
+                        👑
+                    </div>
+
+                    <div class="food-name">
+                        Elite Feast
+                    </div>
+
+                    <div class="food-price">
+                        100 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +100 Hunger
+                    </div>
+
                 </div>
+
             </div>
 
-            <p id="shopMessage" class="shop-message"></p>
+
+            <p
+                id="shopMessage"
+                class="shop-message">
+            </p>
+
         </div>
+
     </div>
+
 
     <script src="script.js"></script>
 
