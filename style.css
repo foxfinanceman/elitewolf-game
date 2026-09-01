@@ -30,14 +30,42 @@ body {
 
     color: #ffffff;
 
-    /* YOUR FOREST BACKGROUND — UNCHANGED */
-    background-image: url("images/Forest.png");
-    background-size: 130%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* Background rendering moved to a fixed pseudo-element so we can
+       visually 'zoom out' (make it appear farther) while guaranteeing
+       it always covers the screen with no edges. The image file itself
+       remains unchanged and sharp. */
+    background: none;
 }
 
+/* Background 'distance' layer:
+   - Uses the original images/Forest.png (unchanged)
+   - background-size: cover so the image fills; the pseudo-element is oversized
+     then scaled down so the forest visually reads farther away
+   - pointer-events: none so it never interferes with UI interactions
+   - transform ensures the visual scale while large width/height prevents edges */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url("images/Forest.png");
+    background-repeat: no-repeat;
+    background-position: center 42%;
+    background-size: cover;
+
+    /* Make the pseudo-element very large so scaling down never exposes viewport edges.
+       Use a large viewport-relative maximum to cover all screen shapes. */
+    width: 300vmax;
+    height: 300vmax;
+    left: 50%;
+    top: 50%;
+
+    /* Smaller scale = farther away. Reduced from previous ~0.46 to 0.32 for a stronger distance effect. */
+    transform: translate(-50%, -50%) scale(0.32);
+    transform-origin: center center;
+}
 
 /* =========================================================
    MAIN GAME PANEL
@@ -60,6 +88,10 @@ body {
     box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.55),
         inset 0 1px rgba(255, 255, 255, 0.06);
+
+    /* place UI above the background pseudo-element */
+    position: relative;
+    z-index: 1;
 }
 
 
