@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
         <p class="subtitle">
             Raise your wolf. Build the pack.
         </p>
+
 
         <!-- =========================
              MAIN STATS
@@ -43,7 +45,9 @@
         <div class="wolf-container">
 
             <div class="wolf">
-                🐺
+                <img
+                    src="images/WolfPup.png"
+                    alt="Wolf Pup">
             </div>
 
         </div>
@@ -55,18 +59,24 @@
 
 
         <!-- =========================
-             TAMAGOTCHI STATS
+             PET STATS
         ========================== -->
 
         <div class="pet-stats">
+
 
             <!-- HEALTH -->
 
             <div class="pet-stat">
 
                 <div class="pet-stat-header">
+
                     <span>❤️ Health</span>
-                    <span id="healthText">100 / 100</span>
+
+                    <span id="healthText">
+                        100 / 100
+                    </span>
+
                 </div>
 
                 <div class="pet-bar health-bar">
@@ -86,8 +96,13 @@
             <div class="pet-stat">
 
                 <div class="pet-stat-header">
+
                     <span>🍖 Hunger</span>
-                    <span id="hungerText">100 / 100</span>
+
+                    <span id="hungerText">
+                        100 / 100
+                    </span>
+
                 </div>
 
                 <div class="pet-bar hunger-bar">
@@ -107,8 +122,13 @@
             <div class="pet-stat">
 
                 <div class="pet-stat-header">
+
                     <span>😊 Mood</span>
-                    <span id="moodText">100 / 100</span>
+
+                    <span id="moodText">
+                        100 / 100
+                    </span>
+
                 </div>
 
                 <div class="pet-bar mood-bar">
@@ -162,14 +182,18 @@
         </button>
 
 
+        <!-- FEED BUTTON -->
+
         <button
             id="feedBtn"
-            onclick="feedWolf()">
+            onclick="openFeedMenu()">
 
             🍖 FEED WOLF
 
         </button>
 
+
+        <!-- FOOD SHOP -->
 
         <button
             id="foodShopBtn"
@@ -181,37 +205,76 @@
 
 
         <!-- =========================
-             FOOD INVENTORY
+             INVENTORY
         ========================== -->
 
         <div class="inventory">
 
-            <h3>🎒 FOOD INVENTORY</h3>
+            <h3>
+                🎒 FOOD INVENTORY
+            </h3>
+
 
             <div class="inventory-items">
 
+
                 <div class="inventory-item">
+
                     🦴
-                    <span>Bone</span>
-                    <strong id="boneCount">0</strong>
+
+                    <span>
+                        Bone
+                    </span>
+
+                    <strong id="boneCount">
+                        0
+                    </strong>
+
                 </div>
 
+
                 <div class="inventory-item">
+
                     🥩
-                    <span>Meat</span>
-                    <strong id="meatCount">0</strong>
+
+                    <span>
+                        Meat
+                    </span>
+
+                    <strong id="meatCount">
+                        0
+                    </strong>
+
                 </div>
 
+
                 <div class="inventory-item">
+
                     🍖
-                    <span>Premium</span>
-                    <strong id="premiumCount">0</strong>
+
+                    <span>
+                        Premium
+                    </span>
+
+                    <strong id="premiumCount">
+                        0
+                    </strong>
+
                 </div>
 
+
                 <div class="inventory-item">
+
                     👑
-                    <span>Feast</span>
-                    <strong id="feastCount">0</strong>
+
+                    <span>
+                        Feast
+                    </span>
+
+                    <strong id="feastCount">
+                        0
+                    </strong>
+
                 </div>
 
             </div>
@@ -243,15 +306,142 @@
     </div>
 
 
-    <!-- =========================
+    <!-- ==================================================
+         FEED MENU
+    ================================================== -->
+
+    <div
+        id="feedMenuPanel"
+        class="food-shop-panel">
+
+        <div class="food-shop-content">
+
+            <div class="food-shop-header">
+
+                <h2>
+                    🍖 FEED WOLF
+                </h2>
+
+                <button
+                    class="close-btn"
+                    onclick="closeFeedMenu()">
+
+                    ✕
+
+                </button>
+
+            </div>
+
+
+            <div class="food-shop-items">
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(0)">
+
+                    <div class="food-icon">
+                        🦴
+                    </div>
+
+                    <div class="food-name">
+                        Bone
+                    </div>
+
+                    <div class="food-effect">
+                        +10 Hunger<br>
+                        +5 Mood<br>
+                        +5 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(1)">
+
+                    <div class="food-icon">
+                        🥩
+                    </div>
+
+                    <div class="food-name">
+                        Meat
+                    </div>
+
+                    <div class="food-effect">
+                        +25 Hunger<br>
+                        +10 Mood<br>
+                        +15 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(2)">
+
+                    <div class="food-icon">
+                        🍖
+                    </div>
+
+                    <div class="food-name">
+                        Premium Meat
+                    </div>
+
+                    <div class="food-effect">
+                        +50 Hunger<br>
+                        +20 Mood<br>
+                        +35 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(3)">
+
+                    <div class="food-icon">
+                        👑
+                    </div>
+
+                    <div class="food-name">
+                        Elite Feast
+                    </div>
+
+                    <div class="food-effect">
+                        +100 Hunger<br>
+                        +40 Mood<br>
+                        +75 XP
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p
+                id="feedMessage"
+                class="shop-message">
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
          FOOD SHOP
-    ========================== -->
+    ================================================== -->
 
     <div
         id="foodShopPanel"
         class="food-shop-panel">
 
         <div class="food-shop-content">
+
 
             <div class="food-shop-header">
 
@@ -348,7 +538,7 @@
                 </div>
 
 
-                <!-- ELITE FEAST -->
+                <!-- FEAST -->
 
                 <div
                     class="food-item"
@@ -388,4 +578,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
