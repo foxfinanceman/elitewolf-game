@@ -32,7 +32,7 @@ body {
 
     /* YOUR FOREST BACKGROUND — UNCHANGED */
     background-image: url("images/Forest.png");
-    background-size: cover;
+    background-size: 130%;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
