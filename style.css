@@ -9,7 +9,13 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background: #080b10;
+
+    background-image: url("images/Forest.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
     color: white;
 }
 
@@ -20,7 +26,10 @@ body {
     padding: 35px 25px;
     border: 1px solid #333;
     border-radius: 20px;
-    background: #11161d;
+
+    /* Forest background remains visible */
+    background: rgba(17, 22, 29, 0.45);
+
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
 }
 
@@ -40,7 +49,7 @@ h1 {
     justify-content: space-around;
     margin-bottom: 20px;
     padding: 12px;
-    background: #1a2230;
+    background: rgba(26, 34, 48, 0.85);
     border-radius: 12px;
     font-size: 16px;
     font-weight: bold;
@@ -50,13 +59,10 @@ h1 {
     flex: 1;
 }
 
-/* Make the wolf image area responsive so the PNGs can grow to the largest
-   size that fits between the title and the subtitle without overlapping. */
+/* Wolf image area */
 .wolf-container {
-    /* allow the container to grow but cap by viewport height so it never
-       pushes the subtitle off or overlaps the title */
     height: auto;
-    max-height: 36vh; /* responsive cap: tweak if you want larger/smaller */
+    max-height: 36vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +70,6 @@ h1 {
 }
 
 .wolf {
-    /* remove large font-size placeholder and let the image itself size */
     max-width: 100%;
     max-height: 100%;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
@@ -72,13 +77,13 @@ h1 {
     height: auto;
 }
 
-/* Target the img inside the .wolf container so it scales responsively */
+/* Wolf image */
 .wolf img {
     display: block;
     margin: 0 auto;
     width: auto;
     height: auto;
-    max-height: 36vh; /* match the container cap so it fills available space */
+    max-height: 36vh;
     max-width: 100%;
     object-fit: contain;
 }
@@ -152,6 +157,7 @@ button:disabled {
     min-height: 20px;
 }
 
+/* Wolf evolution animation */
 .wolf.evolving {
     animation: evolve 0.8s ease-in-out;
 }
@@ -173,7 +179,10 @@ button:disabled {
     }
 }
 
-/* Food Shop Overlay */
+/* =========================
+   FOOD SHOP OVERLAY
+========================= */
+
 .food-shop-overlay {
     position: fixed;
     top: 0;
