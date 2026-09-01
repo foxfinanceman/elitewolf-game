@@ -37,22 +37,22 @@ const wolves = [
     {
         name: "Wolf Pup",
         image: "images/WolfPup.png",
-        nextXP: 100
+        nextXP: 1000
     },
     {
         name: "Young Wolf",
         image: "images/YoungWolf.png",
-        nextXP: 250
+        nextXP: 3000
     },
     {
         name: "Alpha Wolf",
         image: "images/AlphaWolf.png",
-        nextXP: 500
+        nextXP: 6000
     },
     {
         name: "Elite Wolf",
         image: "images/EliteWolf.png",
-        nextXP: 1000
+        nextXP: 10000
     }
 ];
 
@@ -103,6 +103,56 @@ function showMessage(text) {
     if (el) {
         el.textContent = text;
     }
+}
+
+
+// =========================
+// MIGRATION
+// =========================
+
+function migrateGame() {
+
+    const migrationKey = "elitewolf_migrated_v2";
+
+    if (localStorage.getItem(migrationKey)) {
+        return;
+    }
+
+    const hasExistingData =
+        localStorage.getItem("elitewolf_xp") !== null ||
+        localStorage.getItem("elitewolf_stage") !== null;
+
+    if (hasExistingData) {
+
+        clearInterval(energyTimer);
+        clearInterval(xpTimer);
+        clearInterval(hungerTimer);
+
+        energyTimer = null;
+        xpTimer = null;
+        hungerTimer = null;
+
+        xp = 0;
+        stage = 0;
+        coins = 0;
+
+        energy = MAX_ENERGY;
+
+        health = MAX_HEALTH;
+        hunger = MAX_HUNGER;
+        mood = MAX_MOOD;
+
+        bone = 0;
+        meat = 0;
+        premium = 0;
+        feast = 0;
+
+        nextEnergyTick = null;
+
+        localStorage.clear();
+    }
+
+    localStorage.setItem(migrationKey, "1");
 }
 
 
@@ -1021,6 +1071,8 @@ function resetTest() {
 // =========================
 // START
 // =========================
+
+migrateGame();
 
 loadGame();
 
