@@ -112,7 +112,7 @@ function showMessage(text) {
 
 function migrateGame() {
 
-    const migrationKey = "elitewolf_migrated_v2";
+    const migrationKey = "elitewolf_migrated_v3";
 
     if (localStorage.getItem(migrationKey)) {
         return;
@@ -120,7 +120,16 @@ function migrateGame() {
 
     const hasExistingData =
         localStorage.getItem("elitewolf_xp") !== null ||
-        localStorage.getItem("elitewolf_stage") !== null;
+        localStorage.getItem("elitewolf_stage") !== null ||
+        localStorage.getItem("elitewolf_coins") !== null ||
+        localStorage.getItem("elitewolf_energy") !== null ||
+        localStorage.getItem("elitewolf_health") !== null ||
+        localStorage.getItem("elitewolf_hunger") !== null ||
+        localStorage.getItem("elitewolf_mood") !== null ||
+        localStorage.getItem("elitewolf_bone") !== null ||
+        localStorage.getItem("elitewolf_meat") !== null ||
+        localStorage.getItem("elitewolf_premium") !== null ||
+        localStorage.getItem("elitewolf_feast") !== null;
 
     if (hasExistingData) {
 
@@ -132,6 +141,21 @@ function migrateGame() {
         xpTimer = null;
         hungerTimer = null;
 
+        // Remove old saved game values
+        localStorage.removeItem("elitewolf_xp");
+        localStorage.removeItem("elitewolf_stage");
+        localStorage.removeItem("elitewolf_coins");
+        localStorage.removeItem("elitewolf_energy");
+        localStorage.removeItem("elitewolf_health");
+        localStorage.removeItem("elitewolf_hunger");
+        localStorage.removeItem("elitewolf_mood");
+        localStorage.removeItem("elitewolf_bone");
+        localStorage.removeItem("elitewolf_meat");
+        localStorage.removeItem("elitewolf_premium");
+        localStorage.removeItem("elitewolf_feast");
+        localStorage.removeItem("elitewolf_nextEnergyTick");
+
+        // Reset to defaults
         xp = 0;
         stage = 0;
         coins = 0;
@@ -148,8 +172,6 @@ function migrateGame() {
         feast = 0;
 
         nextEnergyTick = null;
-
-        localStorage.clear();
     }
 
     localStorage.setItem(migrationKey, "1");
