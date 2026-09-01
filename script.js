@@ -107,6 +107,69 @@ function showMessage(text) {
 
 
 // =========================
+// FORCE RESET V4
+// =========================
+
+function forceResetV4() {
+
+    const currentVersion =
+        localStorage.getItem("elitewolf_game_version");
+
+    if (currentVersion === "v4") {
+        return;
+    }
+
+    // Clear timers
+    clearInterval(energyTimer);
+    clearInterval(xpTimer);
+    clearInterval(hungerTimer);
+
+    energyTimer = null;
+    xpTimer = null;
+    hungerTimer = null;
+
+    // Remove existing Elite Wolf localStorage keys
+    localStorage.removeItem("elitewolf_xp");
+    localStorage.removeItem("elitewolf_stage");
+    localStorage.removeItem("elitewolf_coins");
+    localStorage.removeItem("elitewolf_energy");
+    localStorage.removeItem("elitewolf_health");
+    localStorage.removeItem("elitewolf_hunger");
+    localStorage.removeItem("elitewolf_mood");
+    localStorage.removeItem("elitewolf_bone");
+    localStorage.removeItem("elitewolf_meat");
+    localStorage.removeItem("elitewolf_premium");
+    localStorage.removeItem("elitewolf_feast");
+    localStorage.removeItem("elitewolf_nextEnergyTick");
+    localStorage.removeItem("elitewolf_migrated_v3");
+
+    // Reset to default values
+    xp = 0;
+    stage = 0;
+    coins = 0;
+
+    energy = MAX_ENERGY;
+
+    health = MAX_HEALTH;
+    hunger = MAX_HUNGER;
+    mood = MAX_MOOD;
+
+    bone = 0;
+    meat = 0;
+    premium = 0;
+    feast = 0;
+
+    nextEnergyTick = null;
+
+    // Save default values
+    saveGame();
+
+    // Set version to v4
+    localStorage.setItem("elitewolf_game_version", "v4");
+}
+
+
+// =========================
 // MIGRATION
 // =========================
 
@@ -1094,7 +1157,7 @@ function resetTest() {
 // START
 // =========================
 
-migrateGame();
+forceResetV4();
 
 loadGame();
 
