@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,366 +12,571 @@
 
 <body>
 
-<div class="game">
+    <div class="game">
 
-    <h1>🐺 ELITE WOLF</h1>
+        <h1>🐺 ELITE WOLF</h1>
 
-    <p class="subtitle">
-        Raise your wolf. Build the pack.
-    </p>
-
-
-    <!-- MAIN STATS -->
-
-    <div class="stats-bar">
-
-        <div class="stat">
-            💰 <span id="coins">0</span>
-        </div>
-
-        <div class="stat">
-            ⚡ <span id="energy">Energy 25 / 25</span>
-        </div>
-
-    </div>
-
-
-    <!-- WOLF -->
-
-    <div class="wolf-container">
-
-        <!-- Mood emoji above wolf -->
-        <div id="wolfMood">😊</div>
-
-        <div class="wolf">
-            🐺
-        </div>
-
-    </div>
-
-
-    <h2 id="stage">
-        Wolf Pup
-    </h2>
-
-
-    <!-- PET STATS -->
-
-    <div class="pet-stats">
-
-        <!-- HEALTH -->
-
-        <div class="pet-stat">
-
-            <div class="pet-stat-header">
-                <span>❤️ Health</span>
-                <span id="healthText">100 / 100</span>
-            </div>
-
-            <div class="pet-bar health-bar">
-
-                <div
-                    id="healthFill"
-                    class="pet-bar-fill">
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- HUNGER -->
-
-        <div class="pet-stat">
-
-            <div class="pet-stat-header">
-                <span>🍖 Hunger</span>
-                <span id="hungerText">100 / 100</span>
-            </div>
-
-            <div class="pet-bar hunger-bar">
-
-                <div
-                    id="hungerFill"
-                    class="pet-bar-fill">
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- MOOD -->
-
-        <div class="pet-stat">
-
-            <div class="pet-stat-header">
-                <span>😊 Mood</span>
-                <span id="moodText">100 / 100</span>
-            </div>
-
-            <div class="pet-bar mood-bar">
-
-                <div
-                    id="moodFill"
-                    class="pet-bar-fill">
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- XP -->
-
-    <div class="xp-box">
-
-        <div class="xp-text">
-
-            ⭐ XP:
-            <span id="xp">0</span>
-            /
-            <span id="nextXP">100</span>
-
-        </div>
-
-        <div class="xp-bar">
-
-            <div id="xpFill"></div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ACTIONS -->
-
-    <button
-        id="trainBtn"
-        onclick="trainWolf()">
-
-        ⚔️ TRAIN WOLF
-
-    </button>
-
-
-    <button
-        id="feedBtn"
-        onclick="feedWolf()">
-
-        🍖 FEED WOLF
-
-    </button>
-
-
-    <button
-        id="foodShopBtn"
-        onclick="openFoodShop()">
-
-        🥩 FOOD SHOP
-
-    </button>
-
-
-    <!-- FOOD INVENTORY -->
-
-    <div class="inventory">
-
-        <h3>🎒 FOOD INVENTORY</h3>
-
-        <div class="inventory-items">
-
-            <div class="inventory-item">
-                🦴
-                <span>Bone</span>
-                <strong id="boneCount">0</strong>
-            </div>
-
-            <div class="inventory-item">
-                🥩
-                <span>Meat</span>
-                <strong id="meatCount">0</strong>
-            </div>
-
-            <div class="inventory-item">
-                🍖
-                <span>Premium</span>
-                <strong id="premiumCount">0</strong>
-            </div>
-
-            <div class="inventory-item">
-                👑
-                <span>Feast</span>
-                <strong id="feastCount">0</strong>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- MESSAGE -->
-
-    <p id="message">
-        Your journey begins...
-    </p>
-
-
-    <!-- RESET -->
-
-    <button
-        id="resetTestInline"
-        onclick="resetTest()">
-
-        🔄 RESET TEST
-
-    </button>
-
-</div>
-
-
-<!-- FOOD SHOP -->
-
-<div
-    id="foodShopPanel"
-    class="food-shop-panel">
-
-    <div class="food-shop-content">
-
-        <div class="food-shop-header">
-
-            <h2>
-                🥩 FOOD SHOP
-            </h2>
-
-            <button
-                class="close-btn"
-                onclick="closeFoodShop()">
-
-                ✕
-
-            </button>
-
-        </div>
-
-
-        <div class="food-shop-items">
-
-            <!-- BONE -->
-
-            <div
-                class="food-item"
-                onclick="buyFood(0)">
-
-                <div class="food-icon">
-                    🦴
-                </div>
-
-                <div class="food-name">
-                    Bone
-                </div>
-
-                <div class="food-price">
-                    10 💰
-                </div>
-
-                <div class="food-effect">
-                    +10 Hunger
-                </div>
-
-            </div>
-
-
-            <!-- MEAT -->
-
-            <div
-                class="food-item"
-                onclick="buyFood(1)">
-
-                <div class="food-icon">
-                    🥩
-                </div>
-
-                <div class="food-name">
-                    Meat
-                </div>
-
-                <div class="food-price">
-                    25 💰
-                </div>
-
-                <div class="food-effect">
-                    +25 Hunger
-                </div>
-
-            </div>
-
-
-            <!-- PREMIUM -->
-
-            <div
-                class="food-item"
-                onclick="buyFood(2)">
-
-                <div class="food-icon">
-                    🍖
-                </div>
-
-                <div class="food-name">
-                    Premium Meat
-                </div>
-
-                <div class="food-price">
-                    50 💰
-                </div>
-
-                <div class="food-effect">
-                    +50 Hunger
-                </div>
-
-            </div>
-
-
-            <!-- ELITE FEAST -->
-
-            <div
-                class="food-item"
-                onclick="buyFood(3)">
-
-                <div class="food-icon">
-                    👑
-                </div>
-
-                <div class="food-name">
-                    Elite Feast
-                </div>
-
-                <div class="food-price">
-                    100 💰
-                </div>
-
-                <div class="food-effect">
-                    +100 Hunger
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <p
-            id="shopMessage"
-            class="shop-message">
+        <p class="subtitle">
+            Raise your wolf. Build the pack.
         </p>
 
+
+        <!-- =========================
+             MAIN STATS
+        ========================== -->
+
+        <div class="stats-bar">
+
+            <div class="stat">
+                💰 <span id="coins">0</span>
+            </div>
+
+            <div class="stat">
+                ⚡ <span id="energy">Energy 25 / 25</span>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             WOLF
+        ========================== -->
+
+        <div class="wolf-container">
+
+            <div class="wolf">
+                <img
+                    src="images/WolfPup.png"
+                    alt="Wolf Pup">
+            </div>
+
+        </div>
+
+
+        <h2 id="stage">
+            Wolf Pup
+        </h2>
+
+
+        <!-- =========================
+             PET STATS
+        ========================== -->
+
+        <div class="pet-stats">
+
+
+            <!-- HEALTH -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+
+                    <span>❤️ Health</span>
+
+                    <span id="healthText">
+                        100 / 100
+                    </span>
+
+                </div>
+
+                <div class="pet-bar health-bar">
+
+                    <div
+                        id="healthFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HUNGER -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+
+                    <span>🍖 Hunger</span>
+
+                    <span id="hungerText">
+                        100 / 100
+                    </span>
+
+                </div>
+
+                <div class="pet-bar hunger-bar">
+
+                    <div
+                        id="hungerFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOOD -->
+
+            <div class="pet-stat">
+
+                <div class="pet-stat-header">
+
+                    <span>😊 Mood</span>
+
+                    <span id="moodText">
+                        100 / 100
+                    </span>
+
+                </div>
+
+                <div class="pet-bar mood-bar">
+
+                    <div
+                        id="moodFill"
+                        class="pet-bar-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             XP
+        ========================== -->
+
+        <div class="xp-box">
+
+            <div class="xp-text">
+
+                ⭐ XP:
+                <span id="xp">0</span>
+                /
+                <span id="nextXP">100</span>
+
+            </div>
+
+            <div class="xp-bar">
+
+                <div id="xpFill"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             ACTIONS
+        ========================== -->
+
+        <button
+            id="trainBtn"
+            onclick="trainWolf()">
+
+            ⚔️ TRAIN WOLF
+
+        </button>
+
+
+        <!-- FEED BUTTON -->
+
+        <button
+            id="feedBtn"
+            onclick="openFeedMenu()">
+
+            🍖 FEED WOLF
+
+        </button>
+
+
+        <!-- FOOD SHOP -->
+
+        <button
+            id="foodShopBtn"
+            onclick="openFoodShop()">
+
+            🥩 FOOD SHOP
+
+        </button>
+
+
+        <!-- =========================
+             INVENTORY
+        ========================== -->
+
+        <div class="inventory">
+
+            <h3>
+                🎒 FOOD INVENTORY
+            </h3>
+
+
+            <div class="inventory-items">
+
+
+                <div class="inventory-item">
+
+                    🦴
+
+                    <span>
+                        Bone
+                    </span>
+
+                    <strong id="boneCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="inventory-item">
+
+                    🥩
+
+                    <span>
+                        Meat
+                    </span>
+
+                    <strong id="meatCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="inventory-item">
+
+                    🍖
+
+                    <span>
+                        Premium
+                    </span>
+
+                    <strong id="premiumCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="inventory-item">
+
+                    👑
+
+                    <span>
+                        Feast
+                    </span>
+
+                    <strong id="feastCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGE
+        ========================== -->
+
+        <p id="message">
+            Your journey begins...
+        </p>
+
+
+        <!-- =========================
+             RESET
+        ========================== -->
+
+        <button
+            id="resetTestInline"
+            onclick="resetTest()">
+
+            🔄 RESET TEST
+
+        </button>
+
     </div>
 
-</div>
+
+    <!-- ==================================================
+         FEED MENU
+    ================================================== -->
+
+    <div
+        id="feedMenuPanel"
+        class="food-shop-panel">
+
+        <div class="food-shop-content">
+
+            <div class="food-shop-header">
+
+                <h2>
+                    🍖 FEED WOLF
+                </h2>
+
+                <button
+                    class="close-btn"
+                    onclick="closeFeedMenu()">
+
+                    ✕
+
+                </button>
+
+            </div>
 
 
-<script src="script.js"></script>
+            <div class="food-shop-items">
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(0)">
+
+                    <div class="food-icon">
+                        🦴
+                    </div>
+
+                    <div class="food-name">
+                        Bone
+                    </div>
+
+                    <div class="food-effect">
+                        +10 Hunger<br>
+                        +5 Mood<br>
+                        +5 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(1)">
+
+                    <div class="food-icon">
+                        🥩
+                    </div>
+
+                    <div class="food-name">
+                        Meat
+                    </div>
+
+                    <div class="food-effect">
+                        +25 Hunger<br>
+                        +10 Mood<br>
+                        +15 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(2)">
+
+                    <div class="food-icon">
+                        🍖
+                    </div>
+
+                    <div class="food-name">
+                        Premium Meat
+                    </div>
+
+                    <div class="food-effect">
+                        +50 Hunger<br>
+                        +20 Mood<br>
+                        +35 XP
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="food-item"
+                    onclick="feedWolf(3)">
+
+                    <div class="food-icon">
+                        👑
+                    </div>
+
+                    <div class="food-name">
+                        Elite Feast
+                    </div>
+
+                    <div class="food-effect">
+                        +100 Hunger<br>
+                        +40 Mood<br>
+                        +75 XP
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p
+                id="feedMessage"
+                class="shop-message">
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         FOOD SHOP
+    ================================================== -->
+
+    <div
+        id="foodShopPanel"
+        class="food-shop-panel">
+
+        <div class="food-shop-content">
+
+
+            <div class="food-shop-header">
+
+                <h2>
+                    🥩 FOOD SHOP
+                </h2>
+
+                <button
+                    class="close-btn"
+                    onclick="closeFoodShop()">
+
+                    ✕
+
+                </button>
+
+            </div>
+
+
+            <div class="food-shop-items">
+
+
+                <!-- BONE -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(0)">
+
+                    <div class="food-icon">
+                        🦴
+                    </div>
+
+                    <div class="food-name">
+                        Bone
+                    </div>
+
+                    <div class="food-price">
+                        10 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +10 Hunger
+                    </div>
+
+                </div>
+
+
+                <!-- MEAT -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(1)">
+
+                    <div class="food-icon">
+                        🥩
+                    </div>
+
+                    <div class="food-name">
+                        Meat
+                    </div>
+
+                    <div class="food-price">
+                        25 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +25 Hunger
+                    </div>
+
+                </div>
+
+
+                <!-- PREMIUM -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(2)">
+
+                    <div class="food-icon">
+                        🍖
+                    </div>
+
+                    <div class="food-name">
+                        Premium Meat
+                    </div>
+
+                    <div class="food-price">
+                        50 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +50 Hunger
+                    </div>
+
+                </div>
+
+
+                <!-- FEAST -->
+
+                <div
+                    class="food-item"
+                    onclick="buyFood(3)">
+
+                    <div class="food-icon">
+                        👑
+                    </div>
+
+                    <div class="food-name">
+                        Elite Feast
+                    </div>
+
+                    <div class="food-price">
+                        100 💰
+                    </div>
+
+                    <div class="food-effect">
+                        +100 Hunger
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p
+                id="shopMessage"
+                class="shop-message">
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
