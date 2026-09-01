@@ -813,7 +813,7 @@ function updateGame() {
     if (energyEl) {
 
         energyEl.textContent =
-            `⚡ Energy ${energy} / ${MAX_ENERGY}`;
+            `Energy ${energy} / ${MAX_ENERGY}`;
     }
 
     // Health
