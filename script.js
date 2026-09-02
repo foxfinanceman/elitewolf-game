@@ -1087,7 +1087,27 @@ function startHealthTick() {
 
         }, HEALTH_REGEN_MS);
 }
+// =========================
+// WOLF MOOD EMOJI
+// =========================
 
+const moodEmoji =
+    document.getElementById("wolfMoodEmoji");
+
+if (moodEmoji) {
+
+    if (mood >= 80) {
+        moodEmoji.textContent = "😎";
+    } else if (mood >= 60) {
+        moodEmoji.textContent = "😊";
+    } else if (mood >= 40) {
+        moodEmoji.textContent = "😐";
+    } else if (mood >= 20) {
+        moodEmoji.textContent = "😟";
+    } else {
+        moodEmoji.textContent = "😡";
+    }
+}
 
 // =========================
 // UPDATE UI
