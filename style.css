@@ -957,3 +957,14 @@ button:disabled {
         padding-right: 10px;
     }
 }
+.wolf-container {
+    position: relative;
+}
+
+.wolf-mood-emoji {
+    font-size: 52px;
+    text-align: center;
+    height: 65px;
+    line-height: 65px;
+    margin-bottom: -5px;
+}
