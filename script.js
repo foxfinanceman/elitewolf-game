@@ -19,13 +19,26 @@ let meat = 0;
 let premium = 0;
 let feast = 0;
 
-const ENERGY_TICK_MS = 60000;
-const XP_TICK_MS = 60000;
-const HUNGER_TICK_MS = 60000;
+
+// =========================
+// GAME BALANCE
+// =========================
+
+const ENERGY_TICK_MS = 60000;       // +1 Energy / 1 min
+const XP_TICK_MS = 60000;           // +1 XP / 1 min
+
+const HUNGER_TICK_MS = 300000;      // -1 Hunger / 5 min
+const MOOD_TICK_MS = 600000;        // -1 Mood / 10 min
+
+const HEALTH_REGEN_MS = 120000;     // +1 Health / 2 min
+const HEALTH_LOSS_MS = 300000;      // -1 Health / 5 min
+
 
 let energyTimer = null;
 let xpTimer = null;
 let hungerTimer = null;
+let moodTimer = null;
+let healthTimer = null;
 
 let nextEnergyTick = null;
 let lastUpdateTime = null;
@@ -100,7 +113,9 @@ const foods = [
 // =========================
 
 function showMessage(text) {
-    const el = document.getElementById("message");
+
+    const el =
+        document.getElementById("message");
 
     if (el) {
         el.textContent = text;
@@ -115,11 +130,14 @@ function showMessage(text) {
 function forceResetV4() {
 
     const currentVersion =
-        localStorage.getItem("elitewolf_game_version");
+        localStorage.getItem(
+            "elitewolf_game_version"
+        );
 
-    if (currentVersion === "v4") {
+    if (currentVersion === "v5") {
         return;
     }
+
 
     xp = 0;
     stage = 0;
@@ -142,7 +160,7 @@ function forceResetV4() {
 
     localStorage.setItem(
         "elitewolf_game_version",
-        "v4"
+        "v5"
     );
 }
 
@@ -153,32 +171,79 @@ function forceResetV4() {
 
 function saveGame() {
 
-    localStorage.setItem("elitewolf_xp", xp);
-    localStorage.setItem("elitewolf_stage", stage);
-    localStorage.setItem("elitewolf_coins", coins);
-    localStorage.setItem("elitewolf_energy", energy);
+    localStorage.setItem(
+        "elitewolf_xp",
+        xp
+    );
 
-    localStorage.setItem("elitewolf_health", health);
-    localStorage.setItem("elitewolf_hunger", hunger);
-    localStorage.setItem("elitewolf_mood", mood);
+    localStorage.setItem(
+        "elitewolf_stage",
+        stage
+    );
 
-    localStorage.setItem("elitewolf_bone", bone);
-    localStorage.setItem("elitewolf_meat", meat);
-    localStorage.setItem("elitewolf_premium", premium);
-    localStorage.setItem("elitewolf_feast", feast);
+    localStorage.setItem(
+        "elitewolf_coins",
+        coins
+    );
+
+    localStorage.setItem(
+        "elitewolf_energy",
+        energy
+    );
+
+    localStorage.setItem(
+        "elitewolf_health",
+        health
+    );
+
+    localStorage.setItem(
+        "elitewolf_hunger",
+        hunger
+    );
+
+    localStorage.setItem(
+        "elitewolf_mood",
+        mood
+    );
+
+    localStorage.setItem(
+        "elitewolf_bone",
+        bone
+    );
+
+    localStorage.setItem(
+        "elitewolf_meat",
+        meat
+    );
+
+    localStorage.setItem(
+        "elitewolf_premium",
+        premium
+    );
+
+    localStorage.setItem(
+        "elitewolf_feast",
+        feast
+    );
+
 
     if (nextEnergyTick !== null) {
+
         localStorage.setItem(
             "elitewolf_nextEnergyTick",
             nextEnergyTick
         );
+
     } else {
+
         localStorage.removeItem(
             "elitewolf_nextEnergyTick"
         );
     }
 
+
     if (lastUpdateTime !== null) {
+
         localStorage.setItem(
             "elitewolf_lastUpdateTime",
             lastUpdateTime
@@ -195,7 +260,8 @@ function loadGame() {
 
     const get = (key, fallback) => {
 
-        const value = localStorage.getItem(key);
+        const value =
+            localStorage.getItem(key);
 
         if (value === null) {
             return fallback;
@@ -209,9 +275,20 @@ function loadGame() {
     };
 
 
-    xp = get("elitewolf_xp", 0);
-    stage = get("elitewolf_stage", 0);
-    coins = get("elitewolf_coins", 0);
+    xp = get(
+        "elitewolf_xp",
+        0
+    );
+
+    stage = get(
+        "elitewolf_stage",
+        0
+    );
+
+    coins = get(
+        "elitewolf_coins",
+        0
+    );
 
     energy = get(
         "elitewolf_energy",
@@ -233,10 +310,25 @@ function loadGame() {
         MAX_MOOD
     );
 
-    bone = get("elitewolf_bone", 0);
-    meat = get("elitewolf_meat", 0);
-    premium = get("elitewolf_premium", 0);
-    feast = get("elitewolf_feast", 0);
+    bone = get(
+        "elitewolf_bone",
+        0
+    );
+
+    meat = get(
+        "elitewolf_meat",
+        0
+    );
+
+    premium = get(
+        "elitewolf_premium",
+        0
+    );
+
+    feast = get(
+        "elitewolf_feast",
+        0
+    );
 
 
     const savedTick =
@@ -245,7 +337,9 @@ function loadGame() {
         );
 
     if (savedTick !== null) {
-        nextEnergyTick = Number(savedTick);
+
+        nextEnergyTick =
+            Number(savedTick);
     }
 
 
@@ -255,9 +349,14 @@ function loadGame() {
         );
 
     if (savedLastTime !== null) {
-        lastUpdateTime = Number(savedLastTime);
+
+        lastUpdateTime =
+            Number(savedLastTime);
+
     } else {
-        lastUpdateTime = Date.now();
+
+        lastUpdateTime =
+            Date.now();
     }
 
 
@@ -312,9 +411,11 @@ function applyOfflineProgress() {
     const now = Date.now();
 
     if (!lastUpdateTime) {
+
         lastUpdateTime = now;
         return;
     }
+
 
     let elapsed =
         now - lastUpdateTime;
@@ -324,11 +425,9 @@ function applyOfflineProgress() {
     }
 
 
-    // Number of complete minutes offline
-
     const minutes =
         Math.floor(
-            elapsed / HUNGER_TICK_MS
+            elapsed / 60000
         );
 
 
@@ -339,7 +438,7 @@ function applyOfflineProgress() {
 
     // =========================
     // ENERGY
-    // +1 every minute
+    // +1 / minute
     // =========================
 
     if (energy < MAX_ENERGY) {
@@ -356,80 +455,86 @@ function applyOfflineProgress() {
 
 
     // =========================
-    // HUNGER
-    // -1 every minute
+    // XP
+    // +1 / minute
     // =========================
+
+    xp += minutes;
+
+    checkEvolution();
+
+
+    // =========================
+    // HUNGER
+    // -1 / 5 minutes
+    // =========================
+
+    const hungerLoss =
+        Math.floor(
+            minutes / 5
+        );
 
     const oldHunger = hunger;
 
     hunger = Math.max(
         0,
-        hunger - minutes
+        hunger - hungerLoss
     );
 
 
     // =========================
     // MOOD
+    // -1 / 10 minutes
+    // only when hunger < 50
     // =========================
 
-    // Mood drops while hunger is low.
-    // We approximate the same behaviour
-    // as the normal one-minute timer.
+    const moodTicks =
+        Math.floor(
+            minutes / 10
+        );
 
-    let moodLoss = 0;
+    if (hunger < 50) {
 
-    if (oldHunger <= 30) {
-        moodLoss = minutes;
-    } else if (hunger <= 30) {
-
-        const minutesUntilLowHunger =
-            Math.max(
-                0,
-                oldHunger - 30
-            );
-
-        moodLoss =
-            Math.max(
-                0,
-                minutes - minutesUntilLowHunger
-            );
+        mood = Math.max(
+            0,
+            mood - moodTicks
+        );
     }
-
-    mood = Math.max(
-        0,
-        mood - moodLoss
-    );
 
 
     // =========================
     // HEALTH
     // =========================
 
-    let healthLoss = 0;
+    // If hunger is very low,
+    // health slowly decreases.
 
-    if (oldHunger <= 10) {
+    if (hunger <= 10) {
 
-        healthLoss = minutes;
-
-    } else if (hunger <= 10) {
-
-        const minutesUntilCritical =
-            Math.max(
-                0,
-                oldHunger - 10
+        const healthLoss =
+            Math.floor(
+                minutes / 5
             );
 
-        healthLoss =
-            Math.max(
-                0,
-                minutes - minutesUntilCritical
+        health = Math.max(
+            0,
+            health - healthLoss
+        );
+
+    } else if (hunger > 30) {
+
+        // Healthy wolf slowly regenerates.
+
+        const healthGain =
+            Math.floor(
+                minutes / 2
             );
+
+        health = Math.min(
+            MAX_HEALTH,
+            health + healthGain
+        );
     }
-
-    health = Math.max(
-        0,
-        health - healthLoss
-    );
 
 
     lastUpdateTime = now;
@@ -444,7 +549,10 @@ function applyOfflineProgress() {
 
 function trainWolf() {
 
-    if (stage === wolves.length - 1) {
+    if (
+        stage ===
+        wolves.length - 1
+    ) {
 
         showMessage(
             "🔥 ELITE WOLF has reached MAX level!"
@@ -470,6 +578,10 @@ function trainWolf() {
 
     coins += 5;
 
+
+    // Training gives a small
+    // mood boost.
+
     mood = Math.min(
         MAX_MOOD,
         mood + 5
@@ -479,6 +591,7 @@ function trainWolf() {
     checkEvolution();
 
     startEnergyRestore();
+
 
     showMessage(
         "⚔️ Training complete! +25 XP +5 💰"
@@ -554,14 +667,15 @@ function openFoodShop() {
 
     if (!shop) return;
 
-    shop.classList.add("active");
+    shop.classList.add(
+        "active"
+    );
 
 
     const message =
         document.getElementById(
             "shopMessage"
         );
-
 
     if (message) {
         message.textContent = "";
@@ -576,9 +690,10 @@ function closeFoodShop() {
             "foodShopPanel"
         );
 
-
     if (shop) {
-        shop.classList.remove("active");
+        shop.classList.remove(
+            "active"
+        );
     }
 }
 
@@ -589,7 +704,8 @@ function closeFoodShop() {
 
 function buyFood(index) {
 
-    const food = foods[index];
+    const food =
+        foods[index];
 
     if (!food) return;
 
@@ -600,7 +716,6 @@ function buyFood(index) {
             document.getElementById(
                 "shopMessage"
             );
-
 
         if (msg) {
 
@@ -655,17 +770,17 @@ function openFeedMenu() {
             "feedMenuPanel"
         );
 
-
     if (!menu) return;
 
-    menu.classList.add("active");
+    menu.classList.add(
+        "active"
+    );
 
 
     const message =
         document.getElementById(
             "feedMessage"
         );
-
 
     if (message) {
         message.textContent = "";
@@ -680,9 +795,11 @@ function closeFeedMenu() {
             "feedMenuPanel"
         );
 
-
     if (menu) {
-        menu.classList.remove("active");
+
+        menu.classList.remove(
+            "active"
+        );
     }
 }
 
@@ -693,7 +810,8 @@ function closeFeedMenu() {
 
 function feedWolf(index) {
 
-    const food = foods[index];
+    const food =
+        foods[index];
 
     if (!food) return;
 
@@ -776,7 +894,6 @@ function startEnergyRestore() {
     if (energy >= MAX_ENERGY) {
 
         nextEnergyTick = null;
-
         return;
     }
 
@@ -784,7 +901,8 @@ function startEnergyRestore() {
     if (!nextEnergyTick) {
 
         nextEnergyTick =
-            Date.now() + ENERGY_TICK_MS;
+            Date.now() +
+            ENERGY_TICK_MS;
     }
 
 
@@ -803,7 +921,6 @@ function startEnergyRestore() {
                 );
 
                 energyTimer = null;
-
                 nextEnergyTick = null;
 
                 saveGame();
@@ -837,7 +954,8 @@ function startEnergyRestore() {
                         energyTimer
                     );
 
-                    energyTimer = null;
+                    energyTimer =
+                        null;
 
                 } else {
 
@@ -901,7 +1019,26 @@ function startHungerTick() {
             );
 
 
-            if (hunger <= 30) {
+            updateGame();
+            saveGame();
+
+        }, HUNGER_TICK_MS);
+}
+
+
+// =========================
+// MOOD TIMER
+// =========================
+
+function startMoodTick() {
+
+    if (moodTimer) return;
+
+
+    moodTimer =
+        setInterval(() => {
+
+            if (hunger < 50) {
 
                 mood = Math.max(
                     0,
@@ -910,11 +1047,37 @@ function startHungerTick() {
             }
 
 
+            updateGame();
+            saveGame();
+
+        }, MOOD_TICK_MS);
+}
+
+
+// =========================
+// HEALTH TIMER
+// =========================
+
+function startHealthTick() {
+
+    if (healthTimer) return;
+
+
+    healthTimer =
+        setInterval(() => {
+
             if (hunger <= 10) {
 
                 health = Math.max(
                     0,
                     health - 1
+                );
+
+            } else if (hunger > 30) {
+
+                health = Math.min(
+                    MAX_HEALTH,
+                    health + 1
                 );
             }
 
@@ -922,7 +1085,7 @@ function startHungerTick() {
             updateGame();
             saveGame();
 
-        }, HUNGER_TICK_MS);
+        }, HEALTH_REGEN_MS);
 }
 
 
@@ -943,6 +1106,7 @@ function updateGame() {
 
 
     if (stageEl) {
+
         stageEl.textContent =
             wolf.name;
     }
@@ -980,6 +1144,7 @@ function updateGame() {
 
 
     if (coinsEl) {
+
         coinsEl.textContent =
             coins;
     }
@@ -1066,7 +1231,8 @@ function updateGame() {
 
 
     if (premiumEl) {
-        premiumEl.textContent = premium;
+        premiumEl.textContent =
+            premium;
     }
 
 
@@ -1077,9 +1243,14 @@ function updateGame() {
 
 
     if (feastEl) {
-        feastEl.textContent = feast;
+        feastEl.textContent =
+            feast;
     }
 
+
+    // =========================
+    // XP PROGRESS
+    // =========================
 
     const nextXPEl =
         document.getElementById(
@@ -1123,17 +1294,23 @@ function updateGame() {
     } else {
 
         if (nextXPEl) {
+
             nextXPEl.textContent =
                 "MAX";
         }
 
 
         if (xpFill) {
+
             xpFill.style.width =
                 "100%";
         }
     }
 
+
+    // =========================
+    // HEALTH BAR
+    // =========================
 
     const healthFill =
         document.getElementById(
@@ -1148,6 +1325,10 @@ function updateGame() {
     }
 
 
+    // =========================
+    // HUNGER BAR
+    // =========================
+
     const hungerFill =
         document.getElementById(
             "hungerFill"
@@ -1161,6 +1342,10 @@ function updateGame() {
     }
 
 
+    // =========================
+    // MOOD BAR
+    // =========================
+
     const moodFill =
         document.getElementById(
             "moodFill"
@@ -1173,6 +1358,10 @@ function updateGame() {
             mood + "%";
     }
 
+
+    // =========================
+    // TRAIN BUTTON
+    // =========================
 
     const trainBtn =
         document.getElementById(
@@ -1260,9 +1449,10 @@ function updateEnergyCountdown() {
         Math.max(
             1,
             Math.ceil(
-                (nextEnergyTick -
-                    Date.now()) /
-                    1000
+                (
+                    nextEnergyTick -
+                    Date.now()
+                ) / 1000
             )
         );
 
@@ -1352,10 +1542,20 @@ function resetTest() {
         hungerTimer
     );
 
+    clearInterval(
+        moodTimer
+    );
+
+    clearInterval(
+        healthTimer
+    );
+
 
     energyTimer = null;
     xpTimer = null;
     hungerTimer = null;
+    moodTimer = null;
+    healthTimer = null;
 
 
     xp = 0;
@@ -1387,7 +1587,7 @@ function resetTest() {
 
     localStorage.setItem(
         "elitewolf_game_version",
-        "v4"
+        "v5"
     );
 
 
@@ -1402,6 +1602,8 @@ function resetTest() {
 
     startXPTick();
     startHungerTick();
+    startMoodTick();
+    startHealthTick();
 }
 
 
@@ -1414,13 +1616,15 @@ forceResetV4();
 loadGame();
 
 
-// ⭐ APPLY OFFLINE PROGRESS
+// =========================
+// OFFLINE PROGRESS
+// =========================
 
 applyOfflineProgress();
 
 
 // Update timestamp after
-// processing offline time
+// offline calculation
 
 lastUpdateTime =
     Date.now();
@@ -1441,6 +1645,8 @@ if (
 
 startXPTick();
 startHungerTick();
+startMoodTick();
+startHealthTick();
 
 
 // =========================
