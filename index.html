@@ -1,587 +1,1028 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#05070d">
+<title>EliteWolf 🐺</title>
 
-    <title>Elite Wolf Evolution</title>
+<style>
+:root {
+    --bg: #05070d;
+    --bg2: #0a0e18;
+    --card: rgba(15, 21, 34, 0.82);
+    --card2: rgba(20, 28, 44, 0.9);
+    --border: rgba(255,255,255,0.08);
+    --text: #f5f7ff;
+    --muted: #8993aa;
 
-    <link rel="stylesheet" href="style.css">
+    --cyan: #19e6ff;
+    --purple: #8b5cf6;
+    --gold: #ffc857;
+    --green: #39e58c;
+    --orange: #ff9d42;
+    --red: #ff5577;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 50% 8%, rgba(25,230,255,0.09), transparent 28%),
+        radial-gradient(circle at 85% 35%, rgba(139,92,246,0.08), transparent 28%),
+        linear-gradient(180deg, #05070d 0%, #070a12 45%, #04060b 100%);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+button {
+    font: inherit;
+}
+
+.app {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 14px 14px 30px;
+    position: relative;
+}
+
+/* TOP HUD */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    background: linear-gradient(145deg, rgba(25,230,255,.16), rgba(139,92,246,.18));
+    border: 1px solid rgba(25,230,255,.2);
+    box-shadow: 0 0 24px rgba(25,230,255,.08);
+}
+
+.logo-text {
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: .8px;
+}
+
+.logo-sub {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1.4px;
+    margin-top: 2px;
+    text-transform: uppercase;
+}
+
+.hud {
+    display: flex;
+    gap: 7px;
+}
+
+.hud-pill {
+    min-width: 82px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    background: rgba(15,21,34,.8);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.hud-label {
+    font-size: 8px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hud-value {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.coins-value {
+    color: var(--gold);
+}
+
+.energy-value {
+    color: var(--cyan);
+}
+
+/* STAGE */
+
+.stage-area {
+    text-align: center;
+    margin-top: 3px;
+}
+
+.stage-kicker {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#stage {
+    margin-top: 4px;
+    font-size: 27px;
+    line-height: 1.1;
+    font-weight: 950;
+    letter-spacing: -.7px;
+    background: linear-gradient(90deg, #fff, #bcefff, #bba7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* MESSAGE */
+
+#message {
+    min-height: 20px;
+    text-align: center;
+    margin: 9px 12px 0;
+    font-size: 11px;
+    color: #aab5ca;
+}
+
+/* WOLF */
+
+.wolf-section {
+    position: relative;
+    margin: 2px auto 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 245px;
+}
+
+.wolf-glow {
+    position: absolute;
+    width: 185px;
+    height: 185px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+            rgba(25,230,255,.19) 0%,
+            rgba(139,92,246,.12) 36%,
+            rgba(139,92,246,.03) 62%,
+            transparent 72%);
+    filter: blur(12px);
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.wolf-ring {
+    position: absolute;
+    width: 205px;
+    height: 205px;
+    border-radius: 50%;
+    border: 1px solid rgba(25,230,255,.10);
+    box-shadow:
+        0 0 35px rgba(25,230,255,.06),
+        inset 0 0 35px rgba(139,92,246,.04);
+}
+
+.wolf {
+    width: 225px;
+    height: 225px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wolf img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    filter:
+        drop-shadow(0 12px 20px rgba(0,0,0,.5))
+        drop-shadow(0 0 16px rgba(25,230,255,.13));
+    animation: wolfFloat 4s ease-in-out infinite;
+}
+
+#wolfMoodEmoji {
+    position: absolute;
+    z-index: 5;
+    right: calc(50% - 105px);
+    bottom: 17px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(9,13,22,.92);
+    border: 1px solid rgba(255,255,255,.1);
+    font-size: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+
+.evolving {
+    animation: evolutionFlash .8s ease !important;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.stat-card {
+    padding: 11px 10px 10px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(17,24,39,.92), rgba(10,15,25,.92));
+    border: 1px solid var(--border);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 8px 25px rgba(0,0,0,.15);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.stat-name {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.stat-value {
+    font-size: 9px;
+    font-weight: 800;
+    color: #dce3f2;
+}
+
+.stat-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,.06);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width .35s ease;
+}
+
+#healthFill {
+    background: linear-gradient(90deg, #ff5577, #ff7f96);
+}
+
+#hungerFill {
+    background: linear-gradient(90deg, #ff9d42, #ffc857);
+}
+
+#moodFill {
+    background: linear-gradient(90deg, #8b5cf6, #b99aff);
+}
+
+/* XP */
+
+.xp-card {
+    margin-top: 10px;
+    padding: 13px;
+    border-radius: 17px;
+    background:
+        linear-gradient(145deg, rgba(17,25,41,.94), rgba(9,14,24,.94));
+    border: 1px solid rgba(25,230,255,.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 10px 28px rgba(0,0,0,.16);
+}
+
+.xp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.xp-title {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #dbe8f7;
+}
+
+.xp-next {
+    font-size: 10px;
+    color: var(--cyan);
+    font-weight: 800;
+}
+
+.xp-track {
+    height: 8px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.06);
+    overflow: hidden;
+}
+
+#xpFill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    box-shadow: 0 0 15px rgba(25,230,255,.25);
+    transition: width .4s ease;
+}
+
+/* INVENTORY */
+
+.inventory {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+}
+
+.inventory-item {
+    min-height: 54px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 14px;
+    background: rgba(13,19,31,.78);
+    border: 1px solid var(--border);
+}
+
+.item-icon {
+    font-size: 17px;
+}
+
+.item-count {
+    font-size: 10px;
+    color: #dbe2ef;
+    font-weight: 800;
+}
+
+/* ACTIONS */
+
+.actions {
+    margin-top: 12px;
+    display: grid;
+    gap: 8px;
+}
+
+#trainBtn {
+    width: 100%;
+    min-height: 54px;
+    border: 0;
+    border-radius: 17px;
+    color: #031016;
+    font-size: 14px;
+    font-weight: 950;
+    letter-spacing: .4px;
+    cursor: pointer;
+    background: linear-gradient(100deg, #19e6ff, #70f2ff 48%, #a7f7ff);
+    box-shadow:
+        0 10px 28px rgba(25,230,255,.17),
+        inset 0 1px 0 rgba(255,255,255,.5);
+    transition: transform .12s ease, filter .12s ease;
+}
+
+#trainBtn:active {
+    transform: scale(.975);
+}
+
+#trainBtn:disabled {
+    opacity: .42;
+    cursor: not-allowed;
+    filter: grayscale(.3);
+}
+
+.secondary-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.action-btn {
+    min-height: 48px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,.08);
+    color: #e8edf8;
+    background: linear-gradient(145deg, rgba(20,28,44,.95), rgba(11,16,27,.95));
+    font-size: 11px;
+    font-weight: 850;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,.16);
+    transition: transform .12s ease, border-color .12s ease;
+}
+
+.action-btn:active {
+    transform: scale(.975);
+}
+
+.feed-btn {
+    border-color: rgba(139,92,246,.18);
+}
+
+.shop-btn {
+    border-color: rgba(255,200,87,.18);
+}
+
+/* PANELS */
+
+.panel {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 12px;
+    background: rgba(0,0,0,.62);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease;
+}
+
+.panel.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.panel-content {
+    width: 100%;
+    max-width: 430px;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 17px;
+    border-radius: 23px 23px 16px 16px;
+    background:
+        linear-gradient(180deg, rgba(18,26,42,.98), rgba(7,11,19,.99));
+    border: 1px solid rgba(255,255,255,.09);
+    box-shadow:
+        0 -15px 50px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 13px;
+}
+
+.panel-title {
+    font-size: 17px;
+    font-weight: 950;
+}
+
+.close-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.05);
+    color: #b7c0d2;
+    font-size: 18px;
+}
+
+/* FOOD ITEMS */
+
+.food-list {
+    display: grid;
+    gap: 8px;
+}
+
+.food-item {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 11px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.055);
+}
+
+.food-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255,255,255,.05);
+    font-size: 21px;
+}
+
+.food-name {
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.food-info {
+    margin-top: 3px;
+    font-size: 9px;
+    color: var(--muted);
+}
+
+.food-buy {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 0;
+    background: rgba(25,230,255,.1);
+    border: 1px solid rgba(25,230,255,.16);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+}
+
+#shopMessage,
+#feedMessage {
+    min-height: 18px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10px;
+    color: #9eabc0;
+}
+
+/* RESET */
+
+.reset-area {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.reset-btn {
+    border: 0;
+    background: transparent;
+    color: #59647a;
+    font-size: 9px;
+    padding: 8px 15px;
+}
+
+/* ANIMATIONS */
+
+@keyframes wolfFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        transform: scale(.95);
+        opacity: .65;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes evolutionFlash {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    35% {
+        transform: scale(1.08);
+        filter: brightness(2.2);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+@media (max-width: 370px) {
+    .app {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .wolf-section {
+        height: 225px;
+    }
+
+    .wolf {
+        width: 205px;
+        height: 205px;
+    }
+
+    .wolf-ring {
+        width: 185px;
+        height: 185px;
+    }
+
+    .hud-pill {
+        min-width: 75px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="game">
+<div class="app">
 
-        <h1>🐺 ELITE WOLF</h1>
+    <!-- TOP HUD -->
+    <header class="topbar">
 
-        <p class="subtitle">
-            Raise your wolf. Build the pack.
-        </p>
+        <div class="logo">
+            <div class="logo-icon">🐺</div>
 
+            <div>
+                <div class="logo-text">ELITEWOLF</div>
+                <div class="logo-sub">BUILD THE PACK</div>
+            </div>
+        </div>
 
-        <!-- =========================
-             MAIN STATS
-        ========================== -->
+        <div class="hud">
 
-        <div class="stats-bar">
-
-            <div class="stat">
-                💰 <span id="coins">0</span>
+            <div class="hud-pill">
+                <div class="hud-label">Coins</div>
+                <div class="hud-value coins-value">💰 <span id="coins">0</span></div>
             </div>
 
-            <div class="stat">
-                ⚡ <span id="energy">Energy 25 / 25</span>
+            <div class="hud-pill">
+                <div class="hud-label">Energy</div>
+                <div class="hud-value energy-value">⚡ <span id="energy">Energy 25 / 25</span></div>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- STAGE -->
+    <section class="stage-area">
+
+        <div class="stage-kicker">Current Evolution</div>
+
+        <div id="stage">Wolf Pup</div>
+
+        <div id="message"></div>
+
+    </section>
+
+
+    <!-- WOLF -->
+    <section class="wolf-section">
+
+        <div class="wolf-glow"></div>
+        <div class="wolf-ring"></div>
+
+        <div class="wolf"></div>
+
+        <div id="wolfMoodEmoji">😎</div>
+
+    </section>
+
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <span class="stat-name">Health</span>
+                <span class="stat-value" id="healthText">100 / 100</span>
+            </div>
+
+            <div class="stat-bar">
+                <div id="healthFill" class="stat-fill"></div>
             </div>
 
         </div>
 
 
-        <!-- =========================
-             WOLF
-        ========================== -->
+        <div class="stat-card">
 
-        <div class="wolf-container">
+            <div class="stat-top">
+                <span class="stat-name">Hunger</span>
+                <span class="stat-value" id="hungerText">100 / 100</span>
+            </div>
 
-    <div id="wolfMoodEmoji" class="wolf-mood-emoji">
-        😎
-    </div>
+            <div class="stat-bar">
+                <div id="hungerFill" class="stat-fill"></div>
+            </div>
 
-    <div class="wolf">
-        <img
-            src="images/WolfPup.png"
-            alt="Wolf Pup">
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+                <span class="stat-name">Mood</span>
+                <span class="stat-value" id="moodText">100 / 100</span>
+            </div>
+
+            <div class="stat-bar">
+                <div id="moodFill" class="stat-fill"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- XP -->
+    <section class="xp-card">
+
+        <div class="xp-header">
+
+            <span class="xp-title">Wolf Progress</span>
+
+            <span class="xp-next">
+                <span id="xp">0</span> / <span id="nextXP">1000</span> XP
+            </span>
+
+        </div>
+
+        <div class="xp-track">
+            <div id="xpFill"></div>
+        </div>
+
+    </section>
+
+
+    <!-- INVENTORY -->
+    <section class="inventory">
+
+        <div class="inventory-item">
+            <div class="item-icon">🦴</div>
+            <div class="item-count" id="boneCount">0</div>
+        </div>
+
+        <div class="inventory-item">
+            <div class="item-icon">🥩</div>
+            <div class="item-count" id="meatCount">0</div>
+        </div>
+
+        <div class="inventory-item">
+            <div class="item-icon">🍖</div>
+            <div class="item-count" id="premiumCount">0</div>
+        </div>
+
+        <div class="inventory-item">
+            <div class="item-icon">🍗</div>
+            <div class="item-count" id="feastCount">0</div>
+        </div>
+
+    </section>
+
+
+    <!-- ACTIONS -->
+    <section class="actions">
+
+        <button id="trainBtn" onclick="trainWolf()">
+            ⚔️ TRAIN WOLF
+        </button>
+
+        <div class="secondary-actions">
+
+            <button class="action-btn feed-btn" onclick="openFeedMenu()">
+                🍖 FEED WOLF
+            </button>
+
+            <button class="action-btn shop-btn" onclick="openFoodShop()">
+                🛒 FOOD SHOP
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESET -->
+    <div class="reset-area">
+        <button class="reset-btn" onclick="resetTest()">
+            Reset Game
+        </button>
     </div>
 
 </div>
-                
 
 
-        <h2 id="stage">
-            Wolf Pup
-        </h2>
+<!-- FEED PANEL -->
 
+<div id="feedMenuPanel" class="panel">
 
-        <!-- =========================
-             PET STATS
-        ========================== -->
+    <div class="panel-content">
 
-        <div class="pet-stats">
+        <div class="panel-header">
 
+            <div class="panel-title">🍖 Feed Your Wolf</div>
 
-            <!-- HEALTH -->
-
-            <div class="pet-stat">
-
-                <div class="pet-stat-header">
-
-                    <span>❤️ Health</span>
-
-                    <span id="healthText">
-                        100 / 100
-                    </span>
-
-                </div>
-
-                <div class="pet-bar health-bar">
-
-                    <div
-                        id="healthFill"
-                        class="pet-bar-fill">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- HUNGER -->
-
-            <div class="pet-stat">
-
-                <div class="pet-stat-header">
-
-                    <span>🍖 Hunger</span>
-
-                    <span id="hungerText">
-                        100 / 100
-                    </span>
-
-                </div>
-
-                <div class="pet-bar hunger-bar">
-
-                    <div
-                        id="hungerFill"
-                        class="pet-bar-fill">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOOD -->
-
-            <div class="pet-stat">
-
-                <div class="pet-stat-header">
-
-                    <span>😊 Mood</span>
-
-                    <span id="moodText">
-                        100 / 100
-                    </span>
-
-                </div>
-
-                <div class="pet-bar mood-bar">
-
-                    <div
-                        id="moodFill"
-                        class="pet-bar-fill">
-                    </div>
-
-                </div>
-
-            </div>
+            <button class="close-btn" onclick="closeFeedMenu()">×</button>
 
         </div>
 
 
-        <!-- =========================
-             XP
-        ========================== -->
+        <div class="food-list">
 
-        <div class="xp-box">
+            <div class="food-item">
 
-            <div class="xp-text">
+                <div class="food-icon">🦴</div>
 
-                ⭐ XP:
-                <span id="xp">0</span>
-                /
-                <span id="nextXP">100</span>
-
-            </div>
-
-            <div class="xp-bar">
-
-                <div id="xpFill"></div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             ACTIONS
-        ========================== -->
-
-        <button
-            id="trainBtn"
-            onclick="trainWolf()">
-
-            ⚔️ TRAIN WOLF
-
-        </button>
-
-
-        <!-- FEED BUTTON -->
-
-        <button
-            id="feedBtn"
-            onclick="openFeedMenu()">
-
-            🍖 FEED WOLF
-
-        </button>
-
-
-        <!-- FOOD SHOP -->
-
-        <button
-            id="foodShopBtn"
-            onclick="openFoodShop()">
-
-            🥩 FOOD SHOP
-
-        </button>
-
-
-        <!-- =========================
-             INVENTORY
-        ========================== -->
-
-        <div class="inventory">
-
-            <h3>
-                🎒 FOOD INVENTORY
-            </h3>
-
-
-            <div class="inventory-items">
-
-
-                <div class="inventory-item">
-
-                    🦴
-
-                    <span>
-                        Bone
-                    </span>
-
-                    <strong id="boneCount">
-                        0
-                    </strong>
-
+                <div>
+                    <div class="food-name">Bone</div>
+                    <div class="food-info">+10 Hunger · +5 Mood · +5 XP</div>
                 </div>
 
-
-                <div class="inventory-item">
-
-                    🥩
-
-                    <span>
-                        Meat
-                    </span>
-
-                    <strong id="meatCount">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="inventory-item">
-
-                    🍖
-
-                    <span>
-                        Premium
-                    </span>
-
-                    <strong id="premiumCount">
-                        0
-                    </strong>
-
-                </div>
-
-
-                <div class="inventory-item">
-
-                    👑
-
-                    <span>
-                        Feast
-                    </span>
-
-                    <strong id="feastCount">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             MESSAGE
-        ========================== -->
-
-        <p id="message">
-            Your journey begins...
-        </p>
-
-
-        <!-- =========================
-             RESET
-        ========================== -->
-
-        <button
-            id="resetTestInline"
-            onclick="resetTest()">
-
-            🔄 RESET TEST
-
-        </button>
-
-    </div>
-
-
-    <!-- ==================================================
-         FEED MENU
-    ================================================== -->
-
-    <div
-        id="feedMenuPanel"
-        class="food-shop-panel">
-
-        <div class="food-shop-content">
-
-            <div class="food-shop-header">
-
-                <h2>
-                    🍖 FEED WOLF
-                </h2>
-
-                <button
-                    class="close-btn"
-                    onclick="closeFeedMenu()">
-
-                    ✕
-
+                <button class="food-buy" onclick="feedWolf(0)">
+                    USE
                 </button>
 
             </div>
 
 
-            <div class="food-shop-items">
+            <div class="food-item">
 
+                <div class="food-icon">🥩</div>
 
-                <div
-                    class="food-item"
-                    onclick="feedWolf(0)">
-
-                    <div class="food-icon">
-                        🦴
-                    </div>
-
-                    <div class="food-name">
-                        Bone
-                    </div>
-
-                    <div class="food-effect">
-                        +10 Hunger<br>
-                        +5 Mood<br>
-                        +5 XP
-                    </div>
-
+                <div>
+                    <div class="food-name">Meat</div>
+                    <div class="food-info">+25 Hunger · +10 Mood · +15 XP</div>
                 </div>
 
-
-                <div
-                    class="food-item"
-                    onclick="feedWolf(1)">
-
-                    <div class="food-icon">
-                        🥩
-                    </div>
-
-                    <div class="food-name">
-                        Meat
-                    </div>
-
-                    <div class="food-effect">
-                        +25 Hunger<br>
-                        +10 Mood<br>
-                        +15 XP
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="food-item"
-                    onclick="feedWolf(2)">
-
-                    <div class="food-icon">
-                        🍖
-                    </div>
-
-                    <div class="food-name">
-                        Premium Meat
-                    </div>
-
-                    <div class="food-effect">
-                        +50 Hunger<br>
-                        +20 Mood<br>
-                        +35 XP
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="food-item"
-                    onclick="feedWolf(3)">
-
-                    <div class="food-icon">
-                        👑
-                    </div>
-
-                    <div class="food-name">
-                        Elite Feast
-                    </div>
-
-                    <div class="food-effect">
-                        +100 Hunger<br>
-                        +40 Mood<br>
-                        +75 XP
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <p
-                id="feedMessage"
-                class="shop-message">
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================================
-         FOOD SHOP
-    ================================================== -->
-
-    <div
-        id="foodShopPanel"
-        class="food-shop-panel">
-
-        <div class="food-shop-content">
-
-
-            <div class="food-shop-header">
-
-                <h2>
-                    🥩 FOOD SHOP
-                </h2>
-
-                <button
-                    class="close-btn"
-                    onclick="closeFoodShop()">
-
-                    ✕
-
+                <button class="food-buy" onclick="feedWolf(1)">
+                    USE
                 </button>
 
             </div>
 
 
-            <div class="food-shop-items">
+            <div class="food-item">
 
+                <div class="food-icon">🍖</div>
 
-                <!-- BONE -->
-
-                <div
-                    class="food-item"
-                    onclick="buyFood(0)">
-
-                    <div class="food-icon">
-                        🦴
-                    </div>
-
-                    <div class="food-name">
-                        Bone
-                    </div>
-
-                    <div class="food-price">
-                        10 💰
-                    </div>
-
-                    <div class="food-effect">
-                        +10 Hunger
-                    </div>
-
+                <div>
+                    <div class="food-name">Premium Meat</div>
+                    <div class="food-info">+50 Hunger · +20 Mood · +35 XP</div>
                 </div>
 
-
-                <!-- MEAT -->
-
-                <div
-                    class="food-item"
-                    onclick="buyFood(1)">
-
-                    <div class="food-icon">
-                        🥩
-                    </div>
-
-                    <div class="food-name">
-                        Meat
-                    </div>
-
-                    <div class="food-price">
-                        25 💰
-                    </div>
-
-                    <div class="food-effect">
-                        +25 Hunger
-                    </div>
-
-                </div>
-
-
-                <!-- PREMIUM -->
-
-                <div
-                    class="food-item"
-                    onclick="buyFood(2)">
-
-                    <div class="food-icon">
-                        🍖
-                    </div>
-
-                    <div class="food-name">
-                        Premium Meat
-                    </div>
-
-                    <div class="food-price">
-                        50 💰
-                    </div>
-
-                    <div class="food-effect">
-                        +50 Hunger
-                    </div>
-
-                </div>
-
-
-                <!-- FEAST -->
-
-                <div
-                    class="food-item"
-                    onclick="buyFood(3)">
-
-                    <div class="food-icon">
-                        👑
-                    </div>
-
-                    <div class="food-name">
-                        Elite Feast
-                    </div>
-
-                    <div class="food-price">
-                        100 💰
-                    </div>
-
-                    <div class="food-effect">
-                        +100 Hunger
-                    </div>
-
-                </div>
+                <button class="food-buy" onclick="feedWolf(2)">
+                    USE
+                </button>
 
             </div>
 
 
-            <p
-                id="shopMessage"
-                class="shop-message">
-            </p>
+            <div class="food-item">
+
+                <div class="food-icon">🍗</div>
+
+                <div>
+                    <div class="food-name">Elite Feast</div>
+                    <div class="food-info">+100 Hunger · +40 Mood · +75 XP</div>
+                </div>
+
+                <button class="food-buy" onclick="feedWolf(3)">
+                    USE
+                </button>
+
+            </div>
 
         </div>
 
+        <div id="feedMessage"></div>
+
     </div>
 
+</div>
 
-    <script src="script.js"></script>
+
+<!-- FOOD SHOP -->
+
+<div id="foodShopPanel" class="panel">
+
+    <div class="panel-content">
+
+        <div class="panel-header">
+
+            <div class="panel-title">🛒 Food Shop</div>
+
+            <button class="close-btn" onclick="closeFoodShop()">×</button>
+
+        </div>
+
+
+        <div class="food-list">
+
+            <div class="food-item">
+
+                <div class="food-icon">🦴</div>
+
+                <div>
+                    <div class="food-name">Bone</div>
+                    <div class="food-info">+10 Hunger · +5 Mood · +5 XP</div>
+                </div>
+
+                <button class="food-buy" onclick="buyFood(0)">
+                    10 💰
+                </button>
+
+            </div>
+
+
+            <div class="food-item">
+
+                <div class="food-icon">🥩</div>
+
+                <div>
+                    <div class="food-name">Meat</div>
+                    <div class="food-info">+25 Hunger · +10 Mood · +15 XP</div>
+                </div>
+
+                <button class="food-buy" onclick="buyFood(1)">
+                    25 💰
+                </button>
+
+            </div>
+
+
+            <div class="food-item">
+
+                <div class="food-icon">🍖</div>
+
+                <div>
+                    <div class="food-name">Premium Meat</div>
+                    <div class="food-info">+50 Hunger · +20 Mood · +35 XP</div>
+                </div>
+
+                <button class="food-buy" onclick="buyFood(2)">
+                    50 💰
+                </button>
+
+            </div>
+
+
+            <div class="food-item">
+
+                <div class="food-icon">🍗</div>
+
+                <div>
+                    <div class="food-name">Elite Feast</div>
+                    <div class="food-info">+100 Hunger · +40 Mood · +75 XP</div>
+                </div>
+
+                <button class="food-buy" onclick="buyFood(3)">
+                    100 💰
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="shopMessage"></div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
 
 </body>
-
 </html>
