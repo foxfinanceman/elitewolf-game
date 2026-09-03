@@ -114,8 +114,7 @@ const foods = [
 
 function showMessage(text) {
 
-    const el =
-        document.getElementById("message");
+    const el = document.getElementById("message");
 
     if (el) {
         el.textContent = text;
@@ -124,20 +123,17 @@ function showMessage(text) {
 
 
 // =========================
-// RESET V4
+// RESET V5
 // =========================
 
-function forceResetV4() {
+function forceResetV5() {
 
     const currentVersion =
-        localStorage.getItem(
-            "elitewolf_game_version"
-        );
+        localStorage.getItem("elitewolf_game_version");
 
     if (currentVersion === "v5") {
         return;
     }
-
 
     xp = 0;
     stage = 0;
@@ -171,60 +167,19 @@ function forceResetV4() {
 
 function saveGame() {
 
-    localStorage.setItem(
-        "elitewolf_xp",
-        xp
-    );
+    localStorage.setItem("elitewolf_xp", xp);
+    localStorage.setItem("elitewolf_stage", stage);
+    localStorage.setItem("elitewolf_coins", coins);
 
-    localStorage.setItem(
-        "elitewolf_stage",
-        stage
-    );
+    localStorage.setItem("elitewolf_energy", energy);
+    localStorage.setItem("elitewolf_health", health);
+    localStorage.setItem("elitewolf_hunger", hunger);
+    localStorage.setItem("elitewolf_mood", mood);
 
-    localStorage.setItem(
-        "elitewolf_coins",
-        coins
-    );
-
-    localStorage.setItem(
-        "elitewolf_energy",
-        energy
-    );
-
-    localStorage.setItem(
-        "elitewolf_health",
-        health
-    );
-
-    localStorage.setItem(
-        "elitewolf_hunger",
-        hunger
-    );
-
-    localStorage.setItem(
-        "elitewolf_mood",
-        mood
-    );
-
-    localStorage.setItem(
-        "elitewolf_bone",
-        bone
-    );
-
-    localStorage.setItem(
-        "elitewolf_meat",
-        meat
-    );
-
-    localStorage.setItem(
-        "elitewolf_premium",
-        premium
-    );
-
-    localStorage.setItem(
-        "elitewolf_feast",
-        feast
-    );
+    localStorage.setItem("elitewolf_bone", bone);
+    localStorage.setItem("elitewolf_meat", meat);
+    localStorage.setItem("elitewolf_premium", premium);
+    localStorage.setItem("elitewolf_feast", feast);
 
 
     if (nextEnergyTick !== null) {
@@ -260,8 +215,7 @@ function loadGame() {
 
     const get = (key, fallback) => {
 
-        const value =
-            localStorage.getItem(key);
+        const value = localStorage.getItem(key);
 
         if (value === null) {
             return fallback;
@@ -275,20 +229,11 @@ function loadGame() {
     };
 
 
-    xp = get(
-        "elitewolf_xp",
-        0
-    );
+    xp = get("elitewolf_xp", 0);
 
-    stage = get(
-        "elitewolf_stage",
-        0
-    );
+    stage = get("elitewolf_stage", 0);
 
-    coins = get(
-        "elitewolf_coins",
-        0
-    );
+    coins = get("elitewolf_coins", 0);
 
     energy = get(
         "elitewolf_energy",
@@ -340,6 +285,10 @@ function loadGame() {
 
         nextEnergyTick =
             Number(savedTick);
+
+    } else {
+
+        nextEnergyTick = null;
     }
 
 
@@ -417,8 +366,7 @@ function applyOfflineProgress() {
     }
 
 
-    let elapsed =
-        now - lastUpdateTime;
+    let elapsed = now - lastUpdateTime;
 
     if (elapsed < 0) {
         elapsed = 0;
@@ -438,7 +386,6 @@ function applyOfflineProgress() {
 
     // =========================
     // ENERGY
-    // +1 / minute
     // =========================
 
     if (energy < MAX_ENERGY) {
@@ -456,7 +403,6 @@ function applyOfflineProgress() {
 
     // =========================
     // XP
-    // +1 / minute
     // =========================
 
     xp += minutes;
@@ -466,15 +412,12 @@ function applyOfflineProgress() {
 
     // =========================
     // HUNGER
-    // -1 / 5 minutes
     // =========================
 
     const hungerLoss =
         Math.floor(
             minutes / 5
         );
-
-    const oldHunger = hunger;
 
     hunger = Math.max(
         0,
@@ -484,8 +427,6 @@ function applyOfflineProgress() {
 
     // =========================
     // MOOD
-    // -1 / 10 minutes
-    // only when hunger < 50
     // =========================
 
     const moodTicks =
@@ -506,9 +447,6 @@ function applyOfflineProgress() {
     // HEALTH
     // =========================
 
-    // If hunger is very low,
-    // health slowly decreases.
-
     if (hunger <= 10) {
 
         const healthLoss =
@@ -522,8 +460,6 @@ function applyOfflineProgress() {
         );
 
     } else if (hunger > 30) {
-
-        // Healthy wolf slowly regenerates.
 
         const healthGain =
             Math.floor(
@@ -579,8 +515,7 @@ function trainWolf() {
     coins += 5;
 
 
-    // Training gives a small
-    // mood boost.
+    // Training improves mood
 
     mood = Math.min(
         MAX_MOOD,
@@ -667,9 +602,7 @@ function openFoodShop() {
 
     if (!shop) return;
 
-    shop.classList.add(
-        "active"
-    );
+    shop.classList.add("active");
 
 
     const message =
@@ -691,9 +624,7 @@ function closeFoodShop() {
         );
 
     if (shop) {
-        shop.classList.remove(
-            "active"
-        );
+        shop.classList.remove("active");
     }
 }
 
@@ -704,8 +635,7 @@ function closeFoodShop() {
 
 function buyFood(index) {
 
-    const food =
-        foods[index];
+    const food = foods[index];
 
     if (!food) return;
 
@@ -772,9 +702,7 @@ function openFeedMenu() {
 
     if (!menu) return;
 
-    menu.classList.add(
-        "active"
-    );
+    menu.classList.add("active");
 
 
     const message =
@@ -797,9 +725,7 @@ function closeFeedMenu() {
 
     if (menu) {
 
-        menu.classList.remove(
-            "active"
-        );
+        menu.classList.remove("active");
     }
 }
 
@@ -810,8 +736,7 @@ function closeFeedMenu() {
 
 function feedWolf(index) {
 
-    const food =
-        foods[index];
+    const food = foods[index];
 
     if (!food) return;
 
@@ -943,19 +868,16 @@ function startEnergyRestore() {
                     MAX_ENERGY
                 ) {
 
-                    energy =
-                        MAX_ENERGY;
+                    energy = MAX_ENERGY;
 
-                    nextEnergyTick =
-                        null;
+                    nextEnergyTick = null;
 
 
                     clearInterval(
                         energyTimer
                     );
 
-                    energyTimer =
-                        null;
+                    energyTimer = null;
 
                 } else {
 
@@ -1087,27 +1009,44 @@ function startHealthTick() {
 
         }, HEALTH_REGEN_MS);
 }
+
+
 // =========================
 // WOLF MOOD EMOJI
 // =========================
 
-const moodEmoji =
-    document.getElementById("wolfMoodEmoji");
+function updateMoodEmoji() {
 
-if (moodEmoji) {
+    const moodEmoji =
+        document.getElementById(
+            "wolfMoodEmoji"
+        );
+
+    if (!moodEmoji) return;
+
 
     if (mood >= 80) {
+
         moodEmoji.textContent = "😎";
+
     } else if (mood >= 60) {
+
         moodEmoji.textContent = "😊";
+
     } else if (mood >= 40) {
+
         moodEmoji.textContent = "😐";
+
     } else if (mood >= 20) {
+
         moodEmoji.textContent = "😟";
+
     } else {
+
         moodEmoji.textContent = "😡";
     }
 }
+
 
 // =========================
 // UPDATE UI
@@ -1115,15 +1054,15 @@ if (moodEmoji) {
 
 function updateGame() {
 
-    const wolf =
-        wolves[stage];
+    const wolf = wolves[stage];
 
+
+    // =========================
+    // STAGE
+    // =========================
 
     const stageEl =
-        document.getElementById(
-            "stage"
-        );
-
+        document.getElementById("stage");
 
     if (stageEl) {
 
@@ -1132,11 +1071,12 @@ function updateGame() {
     }
 
 
-    const wolfEl =
-        document.querySelector(
-            ".wolf"
-        );
+    // =========================
+    // WOLF IMAGE
+    // =========================
 
+    const wolfEl =
+        document.querySelector(".wolf");
 
     if (wolfEl) {
 
@@ -1146,35 +1086,36 @@ function updateGame() {
     }
 
 
-    const xpEl =
-        document.getElementById(
-            "xp"
-        );
+    // =========================
+    // XP
+    // =========================
 
+    const xpEl =
+        document.getElementById("xp");
 
     if (xpEl) {
         xpEl.textContent = xp;
     }
 
 
-    const coinsEl =
-        document.getElementById(
-            "coins"
-        );
+    // =========================
+    // COINS
+    // =========================
 
+    const coinsEl =
+        document.getElementById("coins");
 
     if (coinsEl) {
-
-        coinsEl.textContent =
-            coins;
+        coinsEl.textContent = coins;
     }
 
 
-    const energyEl =
-        document.getElementById(
-            "energy"
-        );
+    // =========================
+    // ENERGY
+    // =========================
 
+    const energyEl =
+        document.getElementById("energy");
 
     if (energyEl) {
 
@@ -1183,11 +1124,12 @@ function updateGame() {
     }
 
 
-    const healthText =
-        document.getElementById(
-            "healthText"
-        );
+    // =========================
+    // HEALTH TEXT
+    // =========================
 
+    const healthText =
+        document.getElementById("healthText");
 
     if (healthText) {
 
@@ -1196,11 +1138,12 @@ function updateGame() {
     }
 
 
-    const hungerText =
-        document.getElementById(
-            "hungerText"
-        );
+    // =========================
+    // HUNGER TEXT
+    // =========================
 
+    const hungerText =
+        document.getElementById("hungerText");
 
     if (hungerText) {
 
@@ -1209,11 +1152,12 @@ function updateGame() {
     }
 
 
-    const moodText =
-        document.getElementById(
-            "moodText"
-        );
+    // =========================
+    // MOOD TEXT
+    // =========================
 
+    const moodText =
+        document.getElementById("moodText");
 
     if (moodText) {
 
@@ -1222,11 +1166,12 @@ function updateGame() {
     }
 
 
-    const boneEl =
-        document.getElementById(
-            "boneCount"
-        );
+    // =========================
+    // INVENTORY
+    // =========================
 
+    const boneEl =
+        document.getElementById("boneCount");
 
     if (boneEl) {
         boneEl.textContent = bone;
@@ -1234,10 +1179,7 @@ function updateGame() {
 
 
     const meatEl =
-        document.getElementById(
-            "meatCount"
-        );
-
+        document.getElementById("meatCount");
 
     if (meatEl) {
         meatEl.textContent = meat;
@@ -1245,26 +1187,18 @@ function updateGame() {
 
 
     const premiumEl =
-        document.getElementById(
-            "premiumCount"
-        );
-
+        document.getElementById("premiumCount");
 
     if (premiumEl) {
-        premiumEl.textContent =
-            premium;
+        premiumEl.textContent = premium;
     }
 
 
     const feastEl =
-        document.getElementById(
-            "feastCount"
-        );
-
+        document.getElementById("feastCount");
 
     if (feastEl) {
-        feastEl.textContent =
-            feast;
+        feastEl.textContent = feast;
     }
 
 
@@ -1273,15 +1207,10 @@ function updateGame() {
     // =========================
 
     const nextXPEl =
-        document.getElementById(
-            "nextXP"
-        );
-
+        document.getElementById("nextXP");
 
     const xpFill =
-        document.getElementById(
-            "xpFill"
-        );
+        document.getElementById("xpFill");
 
 
     if (
@@ -1301,11 +1230,8 @@ function updateGame() {
             const progress =
                 Math.min(
                     100,
-                    (xp /
-                        wolf.nextXP) *
-                        100
+                    (xp / wolf.nextXP) * 100
                 );
-
 
             xpFill.style.width =
                 progress + "%";
@@ -1314,16 +1240,11 @@ function updateGame() {
     } else {
 
         if (nextXPEl) {
-
-            nextXPEl.textContent =
-                "MAX";
+            nextXPEl.textContent = "MAX";
         }
 
-
         if (xpFill) {
-
-            xpFill.style.width =
-                "100%";
+            xpFill.style.width = "100%";
         }
     }
 
@@ -1333,15 +1254,18 @@ function updateGame() {
     // =========================
 
     const healthFill =
-        document.getElementById(
-            "healthFill"
-        );
-
+        document.getElementById("healthFill");
 
     if (healthFill) {
 
         healthFill.style.width =
-            health + "%";
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    health
+                )
+            ) + "%";
     }
 
 
@@ -1350,15 +1274,18 @@ function updateGame() {
     // =========================
 
     const hungerFill =
-        document.getElementById(
-            "hungerFill"
-        );
-
+        document.getElementById("hungerFill");
 
     if (hungerFill) {
 
         hungerFill.style.width =
-            hunger + "%";
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    hunger
+                )
+            ) + "%";
     }
 
 
@@ -1367,16 +1294,26 @@ function updateGame() {
     // =========================
 
     const moodFill =
-        document.getElementById(
-            "moodFill"
-        );
-
+        document.getElementById("moodFill");
 
     if (moodFill) {
 
         moodFill.style.width =
-            mood + "%";
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    mood
+                )
+            ) + "%";
     }
+
+
+    // =========================
+    // MOOD EMOJI
+    // =========================
+
+    updateMoodEmoji();
 
 
     // =========================
@@ -1384,19 +1321,19 @@ function updateGame() {
     // =========================
 
     const trainBtn =
-        document.getElementById(
-            "trainBtn"
-        );
-
+        document.getElementById("trainBtn");
 
     if (trainBtn) {
 
         trainBtn.disabled =
             energy < 10 ||
-            stage >=
-            wolves.length - 1;
+            stage >= wolves.length - 1;
     }
 
+
+    // =========================
+    // ENERGY COUNTDOWN
+    // =========================
 
     updateEnergyCountdown();
 }
@@ -1409,10 +1346,7 @@ function updateGame() {
 function updateEnergyCountdown() {
 
     const energyEl =
-        document.getElementById(
-            "energy"
-        );
-
+        document.getElementById("energy");
 
     if (!energyEl) return;
 
@@ -1426,26 +1360,19 @@ function updateEnergyCountdown() {
     if (!countdown) {
 
         countdown =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         countdown.id =
             "energyCountdown";
 
-
         countdown.style.fontSize =
             "11px";
-
 
         countdown.style.marginTop =
             "3px";
 
-
         countdown.style.opacity =
             "0.7";
-
 
         energyEl.parentNode.appendChild(
             countdown
@@ -1507,9 +1434,7 @@ document.addEventListener(
 
         if (
             shop &&
-            shop.classList.contains(
-                "active"
-            ) &&
+            shop.classList.contains("active") &&
             event.target === shop
         ) {
 
@@ -1519,9 +1444,7 @@ document.addEventListener(
 
         if (
             feed &&
-            feed.classList.contains(
-                "active"
-            ) &&
+            feed.classList.contains("active") &&
             event.target === feed
         ) {
 
@@ -1550,25 +1473,11 @@ document.addEventListener(
 
 function resetTest() {
 
-    clearInterval(
-        energyTimer
-    );
-
-    clearInterval(
-        xpTimer
-    );
-
-    clearInterval(
-        hungerTimer
-    );
-
-    clearInterval(
-        moodTimer
-    );
-
-    clearInterval(
-        healthTimer
-    );
+    clearInterval(energyTimer);
+    clearInterval(xpTimer);
+    clearInterval(hungerTimer);
+    clearInterval(moodTimer);
+    clearInterval(healthTimer);
 
 
     energyTimer = null;
@@ -1582,13 +1491,10 @@ function resetTest() {
     stage = 0;
     coins = 0;
 
-
     energy = MAX_ENERGY;
-
     health = MAX_HEALTH;
     hunger = MAX_HUNGER;
     mood = MAX_MOOD;
-
 
     bone = 0;
     meat = 0;
@@ -1631,7 +1537,7 @@ function resetTest() {
 // START
 // =========================
 
-forceResetV4();
+forceResetV5();
 
 loadGame();
 
@@ -1643,16 +1549,26 @@ loadGame();
 applyOfflineProgress();
 
 
-// Update timestamp after
-// offline calculation
+// =========================
+// UPDATE TIMESTAMP
+// =========================
 
 lastUpdateTime =
     Date.now();
 
 saveGame();
 
+
+// =========================
+// FIRST UI UPDATE
+// =========================
+
 updateGame();
 
+
+// =========================
+// START TIMERS
+// =========================
 
 if (
     energy <
@@ -1661,7 +1577,6 @@ if (
 
     startEnergyRestore();
 }
-
 
 startXPTick();
 startHungerTick();
