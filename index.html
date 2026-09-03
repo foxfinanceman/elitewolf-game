@@ -34,10 +34,14 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100%;
-    background:
-        radial-gradient(circle at 50% 8%, rgba(25,230,255,0.09), transparent 28%),
-        radial-gradient(circle at 85% 35%, rgba(139,92,246,0.08), transparent 28%),
-        linear-gradient(180deg, #05070d 0%, #070a12 45%, #04060b 100%);
+
+    /* FOREST BACKGROUND */
+    background-image: url("images/Forest.png") !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+
     color: var(--text);
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -46,9 +50,7 @@ body {
     overflow-x: hidden;
 }
 
-button {
-    font: inherit;
-}
+/* TOP HUD */
 
 .app {
     width: 100%;
@@ -666,7 +668,6 @@ button {
 
 <div class="app">
 
-    <!-- TOP HUD -->
     <header class="topbar">
 
         <div class="logo">
@@ -693,8 +694,6 @@ button {
         </div>
     </header>
 
-
-    <!-- STAGE -->
     <section class="stage-area">
 
         <div class="stage-kicker">Current Evolution</div>
@@ -705,8 +704,6 @@ button {
 
     </section>
 
-
-    <!-- WOLF -->
     <section class="wolf-section">
 
         <div class="wolf-glow"></div>
@@ -718,8 +715,6 @@ button {
 
     </section>
 
-
-    <!-- STATS -->
     <section class="stats">
 
         <div class="stat-card">
@@ -735,7 +730,6 @@ button {
 
         </div>
 
-
         <div class="stat-card">
 
             <div class="stat-top">
@@ -748,7 +742,6 @@ button {
             </div>
 
         </div>
-
 
         <div class="stat-card">
 
@@ -765,8 +758,6 @@ button {
 
     </section>
 
-
-    <!-- XP -->
     <section class="xp-card">
 
         <div class="xp-header">
@@ -785,8 +776,6 @@ button {
 
     </section>
 
-
-    <!-- INVENTORY -->
     <section class="inventory">
 
         <div class="inventory-item">
@@ -811,8 +800,6 @@ button {
 
     </section>
 
-
-    <!-- ACTIONS -->
     <section class="actions">
 
         <button id="trainBtn" onclick="trainWolf()">
@@ -833,8 +820,6 @@ button {
 
     </section>
 
-
-    <!-- RESET -->
     <div class="reset-area">
         <button class="reset-btn" onclick="resetTest()">
             Reset Game
@@ -842,7 +827,6 @@ button {
     </div>
 
 </div>
-
 
 <!-- FEED PANEL -->
 
@@ -857,7 +841,6 @@ button {
             <button class="close-btn" onclick="closeFeedMenu()">×</button>
 
         </div>
-
 
         <div class="food-list">
 
@@ -876,7 +859,6 @@ button {
 
             </div>
 
-
             <div class="food-item">
 
                 <div class="food-icon">🥩</div>
@@ -892,7 +874,6 @@ button {
 
             </div>
 
-
             <div class="food-item">
 
                 <div class="food-icon">🍖</div>
@@ -907,7 +888,6 @@ button {
                 </button>
 
             </div>
-
 
             <div class="food-item">
 
@@ -932,7 +912,6 @@ button {
 
 </div>
 
-
 <!-- FOOD SHOP -->
 
 <div id="foodShopPanel" class="panel">
@@ -946,7 +925,6 @@ button {
             <button class="close-btn" onclick="closeFoodShop()">×</button>
 
         </div>
-
 
         <div class="food-list">
 
@@ -965,7 +943,6 @@ button {
 
             </div>
 
-
             <div class="food-item">
 
                 <div class="food-icon">🥩</div>
@@ -981,7 +958,6 @@ button {
 
             </div>
 
-
             <div class="food-item">
 
                 <div class="food-icon">🍖</div>
@@ -996,7 +972,6 @@ button {
                 </button>
 
             </div>
-
 
             <div class="food-item">
 
@@ -1020,7 +995,6 @@ button {
     </div>
 
 </div>
-
 
 <script src="script.js"></script>
 
